@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Wonderzyme Data - SIMPLE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        h1 { color: #2d8659; }
+        button {
+            background: #2d8659;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button:hover { background: #238b4d; }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        #output {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #444;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        .info { color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <h1>🗄️ Wonderzyme Data Export - SIMPLE VERSION</h1>
+    <p>This will export all your inventory and requests data.</p>
+    
+    <button onclick="exportData()" id="exportBtn">📦 EXPORT ALL DATA NOW</button>
+    
+    <div id="output"></div>
+
+    <script>
+        const API_BASE = 'https://ivjggbkvhbelxtzkxalb.supabase.co/functions/v1/make-server-63cffc09';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2amdnYmt2aGJlbHh0emt4YWxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NDQ5OTksImV4cCI6MjA4NzQyMDk5OX0.jg0i2QNGNzIztv4d8-_VQpq6P9s-YZdaXMuEHaYoU4E';
+
+        const output = document.getElementById('output');
+        const btn = document.getElementById('exportBtn');
+
+        function log(message, type = 'info') {
+            const span = document.createElement('span');
+            span.className = type;
+            span.textContent = message + '\n';
+            output.appendChild(span);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        async function exportData() {
+            btn.disabled = true;
+            btn.textContent = '⏳ Exporting...';
+            output.innerHTML = '';
+
+            try {
+                log('🔍 Starting export...', 'info');
+                log('📡 Connecting to Supabase...', 'info');
+
+                // Fetch inventory
+                log('\n📦 Fetching inventory...', 'info');
+                const invResp = await fetch(`${API_BASE}/inventory`, {
+                    headers: { 
+                        'Authorization': `Bearer ${ANON_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!invResp.ok) {
+                    throw new Error(`Inventory fetch failed: ${invResp.status} ${invResp.statusText}`);
+                }
+
+                const inventory = await invResp.json();
+                log(`✅ Found ${inventory.length} products`, 'success');
+                console.log('Inventory:', inventory);
+
+                // Fetch requests
+                log('\n📋 Fetching client requests...', 'info');
+                const reqResp = await fetch(`${API_BASE}/requests`, {
+                    headers: { 
+                        'Authorization': `Bearer ${ANON_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!reqResp.ok) {
+                    throw new Error(`Requests fetch failed: ${reqResp.status} ${reqResp.statusText}`);
+                }
+
+                const requests = await reqResp.json();
+                log(`✅ Found ${requests.length} client requests`, 'success');
+                console.log('Requests:', requests);
+
+                // Create backup
+                log('\n💾 Creating backup file...', 'info');
+                const backup = {
+                    exportDate: new Date().toISOString(),
+                    exportTimestamp: Date.now(),
+                    system: 'Wonderzyme Inventory & Sample Management System',
+                    oldProjectId: 'ivjggbkvhbelxtzkxalb',
+                    data: {
+                        inventory,
+                        requests,
+                        summary: {
+                            totalProducts: inventory.length,
+                            totalRequests: requests.length,
+                            categories: [...new Set(inventory.map(p => p.category))]
+                        }
+                    }
+                };
+
+                // Download
+                const blob = new Blob([JSON.stringify(backup, null, 2)], { 
+                    type: 'application/json' 
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const filename = `wonderzyme-backup-${Date.now()}.json`;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                log('\n✅ EXPORT COMPLETE!', 'success');
+                log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'success');
+                log(`📊 ${inventory.length} products exported`, 'success');
+                log(`📋 ${requests.length} requests exported`, 'success');
+                log(`💾 File: ${filename}`, 'success');
+                log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'success');
+                log('\n✅ Check your Downloads folder!', 'success');
+                log('✅ Keep this file safe for migration!', 'success');
+
+            } catch (error) {
+                console.error('Export error:', error);
+                log('\n❌ EXPORT FAILED', 'error');
+                log(`Error: ${error.message}`, 'error');
+                log('\nTroubleshooting:', 'info');
+                log('1. Check browser console (F12) for details', 'info');
+                log('2. Make sure Edge Function is deployed', 'info');
+                log('3. Check if API keys are correct', 'info');
+                log('4. Try again in a few seconds', 'info');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📦 EXPORT ALL DATA NOW';
+            }
+        }
+
+        // Auto-log on page load
+        window.addEventListener('load', () => {
+            log('✅ Export tool ready!', 'success');
+            log('📡 Will export from: ivjggbkvhbelxtzkxalb.supabase.co', 'info');
+            log('👉 Click the button above to start export\n', 'info');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonderzyme Data Import Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #2d2d2d;
+            border: 2px solid #2d8659;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #2d8659;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #2d8659;
+        }
+        
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            color: #ccc;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-group input[type="file"]:hover {
+            border-color: #2d8659;
+            background: #222;
+        }
+        
+        .form-group small {
+            display: block;
+            color: #888;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: #2d8659;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: #238b4d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(45, 134, 89, 0.3);
+        }
+        
+        .btn:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .status.success {
+            background: rgba(45, 134, 89, 0.2);
+            border: 1px solid #2d8659;
+            color: #4ade80;
+            display: block;
+        }
+        
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #f87171;
+            display: block;
+        }
+        
+        .status.info {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            color: #60a5fa;
+            display: block;
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .instructions {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #60a5fa;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .instructions code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #2d8659;
+        }
+        
+        .file-info {
+            background: #1a1a1a;
+            border: 1px solid #2d8659;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .file-info.show {
+            display: block;
+        }
+        
+        .file-info p {
+            color: #ccc;
+            font-size: 13px;
+            margin: 4px 0;
+        }
+        
+        .file-info strong {
+            color: #2d8659;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>📤 Wonderzyme Data Import</h1>
+            <p>Restore your data to new Supabase project</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 How to Use:</h3>
+            <ol>
+                <li>Deploy Edge Function to your NEW Supabase project</li>
+                <li>Copy <code>Project URL</code> from Settings → API</li>
+                <li>Copy <code>anon public key</code> from Settings → API</li>
+                <li>Select your backup JSON file</li>
+                <li>Click "Import Data" to restore everything</li>
+            </ol>
+        </div>
+        
+        <form id="importForm">
+            <div class="form-group">
+                <label for="projectUrl">New Supabase Project URL</label>
+                <input 
+                    type="text" 
+                    id="projectUrl" 
+                    placeholder="https://xxxxxxxxxxxxx.supabase.co"
+                    required
+                >
+                <small>Your NEW project URL (not the old one!)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="anonKey">New Anon Public Key</label>
+                <input 
+                    type="text" 
+                    id="anonKey" 
+                    placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    required
+                >
+                <small>Your NEW anon key (not the old one!)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="backupFile">Backup JSON File</label>
+                <input 
+                    type="file" 
+                    id="backupFile" 
+                    accept=".json"
+                    required
+                >
+                <small>Select the wonderzyme-backup-*.json file</small>
+            </div>
+            
+            <div id="fileInfo" class="file-info"></div>
+            
+            <button type="submit" class="btn" id="importBtn" disabled>
+                📥 Import Data to New Project
+            </button>
+        </form>
+        
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('importForm');
+        const importBtn = document.getElementById('importBtn');
+        const statusDiv = document.getElementById('status');
+        const projectUrlInput = document.getElementById('projectUrl');
+        const anonKeyInput = document.getElementById('anonKey');
+        const backupFileInput = document.getElementById('backupFile');
+        const fileInfoDiv = document.getElementById('fileInfo');
+
+        let backupData = null;
+
+        backupFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) {
+                importBtn.disabled = true;
+                fileInfoDiv.classList.remove('show');
+                return;
+            }
+
+            try {
+                const text = await file.text();
+                backupData = JSON.parse(text);
+
+                // Validate backup structure
+                if (!backupData.data || !backupData.data.inventory || !backupData.data.requests) {
+                    throw new Error('Invalid backup file structure');
+                }
+
+                // Show file info
+                const summary = backupData.data.summary;
+                fileInfoDiv.innerHTML = `
+                    <p><strong>✅ Valid Backup File</strong></p>
+                    <p>📅 Exported: ${new Date(backupData.exportDate).toLocaleString()}</p>
+                    <p>📦 Products: ${summary.totalProducts}</p>
+                    <p>📋 Requests: ${summary.totalRequests}</p>
+                    <p>🏷️ Categories: ${summary.categories.join(', ')}</p>
+                `;
+                fileInfoDiv.classList.add('show');
+                importBtn.disabled = false;
+
+            } catch (error) {
+                console.error('File parse error:', error);
+                showStatus('error', `❌ Invalid backup file: ${error.message}`);
+                backupData = null;
+                importBtn.disabled = true;
+                fileInfoDiv.classList.remove('show');
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await importData();
+        });
+
+        async function importData() {
+            const projectUrl = projectUrlInput.value.trim();
+            const anonKey = anonKeyInput.value.trim();
+
+            // Validate inputs
+            if (!projectUrl || !anonKey || !backupData) {
+                showStatus('error', '❌ Please fill in all fields and select a backup file');
+                return;
+            }
+
+            if (!projectUrl.includes('supabase.co')) {
+                showStatus('error', '❌ Invalid Supabase URL');
+                return;
+            }
+
+            // Disable button
+            importBtn.disabled = true;
+            importBtn.innerHTML = '<span class="loader"></span> Importing...';
+
+            const apiBase = `${projectUrl}/functions/v1/make-server-63cffc09`;
+            const { inventory, requests } = backupData.data;
+
+            try {
+                showStatus('info', '🔍 Testing connection to new Supabase project...');
+
+                // Test connection by fetching inventory (will auto-initialize)
+                const testResp = await fetch(`${apiBase}/inventory`, {
+                    headers: { Authorization: `Bearer ${anonKey}` }
+                });
+
+                if (!testResp.ok) {
+                    throw new Error(`Connection failed: ${testResp.status}. Make sure Edge Function is deployed!`);
+                }
+
+                const currentInventory = await testResp.json();
+                console.log('✅ Connected! Current inventory:', currentInventory.length);
+
+                showStatus('info', `✅ Connected!\n📤 Importing ${requests.length} client requests...`);
+
+                // Import requests one by one
+                let successCount = 0;
+                let errorCount = 0;
+
+                for (let i = 0; i < requests.length; i++) {
+                    const request = requests[i];
+                    
+                    try {
+                        const resp = await fetch(`${apiBase}/requests`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${anonKey}`
+                            },
+                            body: JSON.stringify(request)
+                        });
+
+                        if (resp.ok) {
+                            successCount++;
+                            showStatus('info', `📤 Importing... ${successCount}/${requests.length} requests completed`);
+                        } else {
+                            errorCount++;
+                            console.error(`Failed to import request ${i}:`, await resp.text());
+                        }
+                    } catch (error) {
+                        errorCount++;
+                        console.error(`Error importing request ${i}:`, error);
+                    }
+
+                    // Small delay to avoid rate limiting
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+
+                showStatus('info', `✅ Import complete!\n🔄 Verifying imported data...`);
+
+                // Verify import
+                const verifyResp = await fetch(`${apiBase}/requests`, {
+                    headers: { Authorization: `Bearer ${anonKey}` }
+                });
+
+                const importedRequests = await verifyResp.json();
+
+                showStatus('success', `
+                    ✅ Migration Complete!
+                    
+                    📊 Import Summary:
+                    • ${currentInventory.length} products (auto-initialized)
+                    • ${successCount} requests imported successfully
+                    ${errorCount > 0 ? `• ${errorCount} requests failed (check console)` : ''}
+                    • ${importedRequests.length} total requests in new database
+                    
+                    🎉 Your new Supabase project is ready!
+                    
+                    Next Steps:
+                    1. Update frontend with new credentials
+                    2. Test admin login
+                    3. Verify all data is correct
+                    4. Test all features
+                `);
+
+            } catch (error) {
+                console.error('Import error:', error);
+                showStatus('error', `
+                    ❌ Import failed: ${error.message}
+                    
+                    Common issues:
+                    • Edge Function not deployed yet
+                    • Wrong Project URL or Anon Key
+                    • Network connection issues
+                    
+                    Check console for detailed errors.
+                `);
+            } finally {
+                importBtn.disabled = false;
+                importBtn.innerHTML = '📥 Import Data to New Project';
+            }
+        }
+
+        function showStatus(type, message) {
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            statusDiv.style.whiteSpace = 'pre-line';
+        }
+    </script>
+</body>
+</html>
