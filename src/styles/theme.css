@@ -179,27 +179,26 @@
     line-height: 1.5;
   }
 
-  /* Custom checkbox styling for forest green color scheme */
   input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 1rem;
     height: 1rem;
-    border: 2px solid #6b7280;
+    border: 2px solid #334155;
     border-radius: 0.25rem;
-    background-color: #1a1a1a;
+    background-color: #08090e;
     cursor: pointer;
     position: relative;
     transition: all 0.2s ease;
   }
 
   input[type="checkbox"]:hover {
-    border-color: #2d8659;
+    border-color: #f97316;
   }
 
   input[type="checkbox"]:checked {
-    background-color: #2d8659;
-    border-color: #2d8659;
+    background-color: #f97316;
+    border-color: #f97316;
   }
 
   input[type="checkbox"]:checked::after {
@@ -207,18 +206,14 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
     width: 0.375rem;
     height: 0.625rem;
-    border: solid white;
+    border: solid #08090e;
     border-width: 0 2px 2px 0;
     transform: translate(-50%, -60%) rotate(45deg);
   }
 
   input[type="checkbox"]:focus {
     outline: none;
-    ring: 2px;
-    ring-color: #2d8659;
-    ring-opacity: 0.5;
   }
 }

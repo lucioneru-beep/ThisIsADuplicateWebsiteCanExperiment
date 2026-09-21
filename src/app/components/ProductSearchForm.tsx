@@ -19,7 +19,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const categories = ['All', 'NATUREZYME', 'BIOZYME', 'PETZYME'];
+  const categories = ['All', 'SMART HOME', 'PERIPHERALS', 'AUDIO'];
 
   useEffect(() => {
     let filtered = products;
@@ -100,7 +100,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
       <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Search & Stock Entry</h2>
 
       {/* Smart Search Box */}
-      <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 border border-gray-700">
+      <div className="bg-[#141824] rounded-lg p-4 sm:p-6 border border-[#1e2433]">
         <div className="relative">
           <Label htmlFor="search" className="text-gray-300 text-sm mb-2 block">
             🔍 Smart Search
@@ -114,18 +114,18 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => searchQuery && setShowSuggestions(true)}
-              className="pl-9 sm:pl-10 bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] text-sm sm:text-base"
+              className="pl-9 sm:pl-10 bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] text-sm sm:text-base"
             />
           </div>
 
           {/* Search Suggestions Dropdown */}
           {showSuggestions && searchQuery.trim() && filteredProducts.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-[#1a1a1a] border border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
+            <div className="absolute z-10 w-full mt-1 bg-[#08090e] border border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto">
               {filteredProducts.map((product) => (
                 <button
                   key={product.id}
                   onClick={() => handleSelectProduct(product)}
-                  className="w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-[#2d2d2d] text-white border-b border-gray-700 last:border-b-0"
+                  className="w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-[#141824] text-white border-b border-[#1e2433] last:border-b-0"
                 >
                   <div className="font-medium text-sm sm:text-base">{product.name}</div>
                   <div className="text-xs sm:text-sm text-gray-400">{product.category}</div>
@@ -137,7 +137,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
       </div>
 
       {/* Category Browse Box */}
-      <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 border border-gray-700">
+      <div className="bg-[#141824] rounded-lg p-4 sm:p-6 border border-[#1e2433]">
         <div className="space-y-4">
           <Label className="text-gray-300 text-sm block">
             📦 Browse by Category
@@ -155,8 +155,8 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
                 }}
                 className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-all ${
                   selectedCategory === category
-                    ? 'bg-[#2d8659] text-white border-2 border-[#2d8659]'
-                    : 'bg-[#1a1a1a] text-gray-300 border-2 border-gray-600 hover:border-[#2d8659]'
+                    ? 'bg-[#f97316] text-white border-2 border-[#f97316]'
+                    : 'bg-[#08090e] text-gray-300 border-2 border-gray-600 hover:border-[#f97316]'
                 }`}
               >
                 <div className="flex items-center justify-center gap-1.5">
@@ -174,7 +174,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
 
           {/* Browse Products in Category */}
           {selectedCategory !== 'All' && !selectedProduct && filteredProducts.length > 0 && (
-            <div className="bg-[#1a1a1a] border border-gray-600 rounded-lg p-4 max-h-64 overflow-y-auto mt-4">
+            <div className="bg-[#08090e] border border-gray-600 rounded-lg p-4 max-h-64 overflow-y-auto mt-4">
               <Label className="text-gray-300 text-sm mb-3 block">
                 {selectedCategory} Products - Click to Select
               </Label>
@@ -183,7 +183,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
                   <button
                     key={product.id}
                     onClick={() => handleSelectProduct(product, false)}
-                    className="w-full text-left px-4 py-3 bg-[#2d2d2d] hover:bg-[#2d8659]/20 border border-gray-700 hover:border-[#2d8659] rounded-lg transition-all"
+                    className="w-full text-left px-4 py-3 bg-[#141824] hover:bg-[#f97316]/20 border border-[#1e2433] hover:border-[#f97316] rounded-lg transition-all"
                   >
                     <div className="font-medium text-white text-sm sm:text-base">{product.name}</div>
                     <div className="text-xs text-gray-400 mt-1">
@@ -199,7 +199,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
 
       {/* Product Details */}
       {selectedProduct && (
-        <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 border border-gray-700">
+        <div className="bg-[#141824] rounded-lg p-4 sm:p-6 border border-[#1e2433]">
           <Label className="text-white text-lg font-semibold mb-4 block">
             ✏️ Product Details
           </Label>
@@ -207,7 +207,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label className="text-gray-300 text-sm mb-1 block">Category</Label>
-                <div className="bg-[#1a1a1a] border border-gray-600 rounded-md px-3 py-2 text-white text-sm sm:text-base">
+                <div className="bg-[#08090e] border border-gray-600 rounded-md px-3 py-2 text-white text-sm sm:text-base">
                   {selectedProduct.category}
                 </div>
               </div>
@@ -219,7 +219,7 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
                     const size = selectedProduct.sizes.find((s) => s.size === e.target.value);
                     setSelectedSize(size || null);
                   }}
-                  className="w-full bg-[#1a1a1a] border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:border-[#2d8659] text-sm sm:text-base"
+                  className="w-full bg-[#08090e] border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:border-[#f97316] text-sm sm:text-base"
                 >
                   {selectedProduct.sizes.map((size) => (
                     <option key={size.size} value={size.size}>
@@ -232,16 +232,16 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
 
             {selectedSize && (
               <>
-                <div className="bg-[#1a1a1a] border-2 border-[#2d8659] rounded-lg p-3 sm:p-4">
+                <div className="bg-[#08090e] border-2 border-[#f97316] rounded-lg p-3 sm:p-4">
                   <Label className="text-gray-300 text-sm mb-1 block">Available Stock</Label>
-                  <div className="text-2xl sm:text-3xl font-bold text-[#2d8659]">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#f97316]">
                     {selectedSize.stock} <span className="text-base sm:text-lg text-gray-400">units</span>
                   </div>
                 </div>
 
                 <div>
                   <Label className="text-gray-300 text-sm mb-1 block">Unit Price</Label>
-                  <div className="bg-[#1a1a1a] border border-gray-600 rounded-md px-3 py-2 text-white text-base sm:text-lg font-semibold">
+                  <div className="bg-[#08090e] border border-gray-600 rounded-md px-3 py-2 text-white text-base sm:text-lg font-semibold">
                     ₱{selectedSize.price.toFixed(2)}
                   </div>
                 </div>
@@ -267,13 +267,13 @@ export function ProductSearchForm({ products, onAddToRequest }: ProductSearchFor
                         }
                       }
                     }}
-                    className="bg-[#1a1a1a] border-gray-600 text-white focus:border-[#2d8659] text-sm sm:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="bg-[#08090e] border-gray-600 text-white focus:border-[#f97316] text-sm sm:text-base [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
 
                 <Button
                   onClick={handleAddToRequest}
-                  className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-3 text-base sm:text-lg"
+                  className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-3 text-base sm:text-lg"
                 >
                   <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Add to Request

@@ -69,12 +69,12 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
   };
 
   return (
-    <div className="bg-[#2d2d2d] rounded-lg border border-gray-700">
+    <div className="bg-[#141824] rounded-lg border border-[#1e2433]">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#2d8659]/20 to-[#238b4d]/20 border-b border-gray-700 p-6">
+      <div className="bg-gradient-to-r from-[#f97316]/20 to-[#ea6a09]/20 border-b border-[#1e2433] p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Database className="w-7 h-7 text-[#2d8659]" />
+            <Database className="w-7 h-7 text-[#f97316]" />
             <div>
               <h2 className="text-2xl font-bold text-white">All Submitted Requests</h2>
               <p className="text-sm text-gray-400">
@@ -88,7 +88,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                 onClick={onManageDatabase}
                 variant="outline"
                 size="sm"
-                className="border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659]/20"
+                className="border-[#f97316] text-[#f97316] hover:bg-[#f97316]/20"
               >
                 <Database className="w-4 h-4 mr-2" />
                 Manage Database
@@ -98,7 +98,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
               onClick={fetchRequests}
               variant="outline"
               size="sm"
-              className="border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659]/20 font-semibold"
+              className="border-[#f97316] text-[#f97316] hover:bg-[#f97316]/20 font-semibold"
               disabled={loading}
             >
               <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
@@ -108,7 +108,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
               onClick={() => setShowDownloadModal(true)}
               variant="outline"
               size="sm"
-              className="border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659]/20 font-semibold"
+              className="border-[#f97316] text-[#f97316] hover:bg-[#f97316]/20 font-semibold"
             >
               <Download className="w-4 h-4 mr-2" />
               Download
@@ -122,7 +122,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
         {loading && requests.length === 0 ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center space-y-3">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#2d8659] mx-auto"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#f97316] mx-auto"></div>
               <p className="text-gray-400">Loading requests...</p>
             </div>
           </div>
@@ -138,7 +138,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
             <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-700">
+                  <tr className="border-b border-[#1e2433]">
                     <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Date & Time</th>
                     <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">DR Number</th>
                     <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Client Name</th>
@@ -149,7 +149,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                 </thead>
                 <tbody>
                   {requests.map((request) => (
-                    <tr key={request.id} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors">
+                    <tr key={request.id} className="border-b border-[#1e2433]/50 hover:bg-gray-700/30 transition-colors">
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2 text-gray-300">
                           <Calendar className="w-4 h-4 text-gray-500" />
@@ -184,7 +184,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                               <div key={idx} className="text-sm text-gray-300">
                                 <span className="font-medium">{item.productName}</span>
                                 <span className="text-gray-500"> ({item.size})</span>
-                                <span className="text-[#2d8659]"> x{item.quantity}</span>
+                                <span className="text-[#f97316]"> x{item.quantity}</span>
                               </div>
                             ))}
                             {request.items.length > 2 && (
@@ -196,7 +196,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                         </div>
                       </td>
                       <td className="py-4 px-4 text-right">
-                        <span className="text-[#2d8659] font-bold text-lg">
+                        <span className="text-[#f97316] font-bold text-lg">
                           ₱{request.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                       </td>
@@ -209,9 +209,9 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
             {/* Mobile Card View */}
             <div className="lg:hidden space-y-4">
               {requests.map((request) => (
-                <div key={request.id} className="bg-[#1a1a1a] rounded-lg p-4 border border-gray-700 space-y-3">
+                <div key={request.id} className="bg-[#08090e] rounded-lg p-4 border border-[#1e2433] space-y-3">
                   {/* Header */}
-                  <div className="flex items-start justify-between gap-3 pb-3 border-b border-gray-700">
+                  <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#1e2433]">
                     <div className="flex items-center gap-2 text-gray-300">
                       <Calendar className="w-4 h-4 text-gray-500" />
                       <div>
@@ -220,7 +220,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[#2d8659] font-bold">
+                      <div className="text-[#f97316] font-bold">
                         ₱{request.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </div>
                     </div>
@@ -248,7 +248,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                   </div>
 
                   {/* Items */}
-                  <div className="pt-2 border-t border-gray-700">
+                  <div className="pt-2 border-t border-[#1e2433]">
                     <div className="flex items-center gap-2 mb-2">
                       <Package className="w-4 h-4 text-gray-500" />
                       <span className="text-gray-400 text-sm font-medium">Items:</span>
@@ -258,7 +258,7 @@ export function RequestsOverviewTable({ apiBase, authToken, refreshTrigger, onMa
                         <div key={idx} className="text-sm text-gray-300">
                           <span className="font-medium">{item.productName}</span>
                           <span className="text-gray-500"> ({item.size})</span>
-                          <span className="text-[#2d8659]"> x{item.quantity}</span>
+                          <span className="text-[#f97316]"> x{item.quantity}</span>
                         </div>
                       ))}
                       {request.items.length > 2 && (

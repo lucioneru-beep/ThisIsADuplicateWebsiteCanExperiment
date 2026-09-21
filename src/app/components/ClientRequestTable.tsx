@@ -60,11 +60,11 @@ export function ClientRequestTable({
   };
 
   return (
-    <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="bg-[#141824] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
       {items.length === 0 ? (
         /* Empty State */
         <div className="text-center py-12">
-          <div className="bg-[#1a1a1a] rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+          <div className="bg-[#08090e] rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
             <span className="text-5xl">📦</span>
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">No Items Yet</h3>
@@ -79,37 +79,37 @@ export function ClientRequestTable({
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden lg:block overflow-x-auto border border-gray-700 rounded-lg">
+          <div className="hidden lg:block overflow-x-auto border border-[#1e2433] rounded-lg">
             <table className="w-full">
-              <thead className="bg-[#1a1a1a]">
+              <thead className="bg-[#08090e]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     #
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Product Name
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Category
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Size
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Qty Requested
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Unit Price
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Total Value
                   </th>
-                  <th className="px-4 py-3 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-4 py-3 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Action
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-[#2d2d2d]">
+              <tbody className="bg-[#141824]">
                 {items.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
@@ -120,7 +120,7 @@ export function ClientRequestTable({
                   items.map((item, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-700 hover:bg-[#1a1a1a] transition-colors"
+                      className="border-b border-[#1e2433] hover:bg-[#08090e] transition-colors"
                     >
                       <td className="px-4 py-3 text-sm text-gray-300">{index + 1}</td>
                       <td className="px-4 py-3 text-sm text-white font-medium">
@@ -150,12 +150,12 @@ export function ClientRequestTable({
                 )}
               </tbody>
               {items.length > 0 && (
-                <tfoot className="bg-[#1a1a1a] border-t-2 border-[#2d8659]">
+                <tfoot className="bg-[#08090e] border-t-2 border-[#f97316]">
                   <tr>
                     <td colSpan={6} className="px-4 py-3 text-right text-sm font-bold text-white">
                       Total Estimated Value:
                     </td>
-                    <td className="px-4 py-3 text-right text-lg font-bold text-[#2d8659]">
+                    <td className="px-4 py-3 text-right text-lg font-bold text-[#f97316]">
                       ₱{totalValue.toFixed(2)}
                     </td>
                     <td></td>
@@ -168,7 +168,7 @@ export function ClientRequestTable({
           {/* Mobile Card View */}
           <div className="lg:hidden space-y-3">
             {items.length === 0 ? (
-              <div className="bg-[#1a1a1a] rounded-lg p-6 text-center text-gray-500 text-sm">
+              <div className="bg-[#08090e] rounded-lg p-6 text-center text-gray-500 text-sm">
                 No items added yet. Use the search form to add products.
               </div>
             ) : (
@@ -176,7 +176,7 @@ export function ClientRequestTable({
                 {items.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-[#1a1a1a] rounded-lg p-4 border border-gray-700 space-y-3"
+                    className="bg-[#08090e] rounded-lg p-4 border border-[#1e2433] space-y-3"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -205,15 +205,15 @@ export function ClientRequestTable({
                       </div>
                       <div>
                         <div className="text-gray-400 text-xs mb-1">Total</div>
-                        <div className="text-[#2d8659] font-semibold">₱{item.total.toFixed(2)}</div>
+                        <div className="text-[#f97316] font-semibold">₱{item.total.toFixed(2)}</div>
                       </div>
                     </div>
                   </div>
                 ))}
-                <div className="bg-[#1a1a1a] rounded-lg p-4 border-2 border-[#2d8659]">
+                <div className="bg-[#08090e] rounded-lg p-4 border-2 border-[#f97316]">
                   <div className="flex justify-between items-center">
                     <span className="text-white font-bold">Total Estimated Value:</span>
-                    <span className="text-[#2d8659] font-bold text-lg">₱{totalValue.toFixed(2)}</span>
+                    <span className="text-[#f97316] font-bold text-lg">₱{totalValue.toFixed(2)}</span>
                   </div>
                 </div>
               </>
@@ -222,10 +222,10 @@ export function ClientRequestTable({
 
           {/* Submit Section */}
           {items.length > 0 && (
-            <div className="space-y-4 pt-6 mt-6 border-t-2 border-[#2d8659]">
-              <div className="bg-[#2d8659]/10 rounded-lg p-4 mb-4">
+            <div className="space-y-4 pt-6 mt-6 border-t-2 border-[#f97316]">
+              <div className="bg-[#f97316]/10 rounded-lg p-4 mb-4">
                 <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                  <Send className="w-5 h-5 text-[#2d8659]" />
+                  <Send className="w-5 h-5 text-[#f97316]" />
                   Complete Your Request
                 </h3>
                 <p className="text-gray-400 text-sm">
@@ -244,7 +244,7 @@ export function ClientRequestTable({
                     placeholder="e.g., John Doe"
                     value={submittedBy}
                     onChange={(e) => setSubmittedBy(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] h-12 text-base"
+                    className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] h-12 text-base"
                   />
                 </div>
                 <div>
@@ -257,7 +257,7 @@ export function ClientRequestTable({
                     placeholder="e.g., ABC Company"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] h-12 text-base"
+                    className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] h-12 text-base"
                   />
                 </div>
                 <div>
@@ -270,7 +270,7 @@ export function ClientRequestTable({
                     placeholder="e.g., 123 Main St, City, Country"
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] h-12 text-base"
+                    className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] h-12 text-base"
                   />
                 </div>
                 <div>
@@ -282,7 +282,7 @@ export function ClientRequestTable({
                     type="date"
                     value={deliveryDate}
                     onChange={(e) => setDeliveryDate(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] h-12 text-base"
+                    className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] h-12 text-base"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ export function ClientRequestTable({
                   placeholder="Add any special instructions, preferences, or comments about this request..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659] min-h-[100px] text-base resize-y"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316] min-h-[100px] text-base resize-y"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Examples: Delivery time preferences, special handling instructions, etc.
@@ -305,7 +305,7 @@ export function ClientRequestTable({
 
               <Button
                 onClick={handleSubmit}
-                className="w-full bg-gradient-to-r from-[#2d8659] to-[#238b4d] hover:from-[#238b4d] hover:to-[#2d8659] text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
+                className="w-full bg-gradient-to-r from-[#f97316] to-[#ea6a09] hover:from-[#ea6a09] hover:to-[#f97316] text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 <Send className="w-5 h-5 mr-2" />
                 Submit Request & Get PDF Receipt

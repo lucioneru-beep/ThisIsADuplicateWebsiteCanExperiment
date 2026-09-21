@@ -24,7 +24,7 @@ export function RequestSummaryTable({
   const [clientName, setClientName] = useState('');
   const [orderDate, setOrderDate] = useState(() => {
     // Load saved order date from localStorage or default to today
-    const saved = localStorage.getItem('wonderzyme_order_date');
+    const saved = localStorage.getItem('nexabox_order_date');
     return saved || new Date().toISOString().split('T')[0];
   });
 
@@ -33,7 +33,7 @@ export function RequestSummaryTable({
   // Save order date to localStorage whenever it changes
   const handleOrderDateChange = (newDate: string) => {
     setOrderDate(newDate);
-    localStorage.setItem('wonderzyme_order_date', newDate);
+    localStorage.setItem('nexabox_order_date', newDate);
   };
 
   const handleSubmit = () => {
@@ -97,14 +97,14 @@ export function RequestSummaryTable({
   };
 
   return (
-    <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="bg-[#141824] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-white">Request Summary</h2>
         <Button
           onClick={handleExportCurrent}
           variant="outline"
           size="sm"
-          className="border-gray-600 text-gray-300 hover:bg-[#1a1a1a] hover:text-white w-full sm:w-auto"
+          className="border-gray-600 text-gray-300 hover:bg-[#08090e] hover:text-white w-full sm:w-auto"
         >
           <Download className="w-4 h-4 mr-2" />
           Export Current
@@ -112,37 +112,37 @@ export function RequestSummaryTable({
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden lg:block overflow-x-auto border border-gray-700 rounded-lg">
+      <div className="hidden lg:block overflow-x-auto border border-[#1e2433] rounded-lg">
         <table className="w-full">
-          <thead className="bg-[#1a1a1a]">
+          <thead className="bg-[#08090e]">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 #
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Product Name
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Category
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Size
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Qty Requested
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Unit Price
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Total Value
               </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                 Action
               </th>
             </tr>
           </thead>
-          <tbody className="bg-[#2d2d2d]">
+          <tbody className="bg-[#141824]">
             {items.length === 0 ? (
               <tr>
                 <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
@@ -153,7 +153,7 @@ export function RequestSummaryTable({
               items.map((item, index) => (
                 <tr
                   key={index}
-                  className="border-b border-gray-700 hover:bg-[#1a1a1a] transition-colors"
+                  className="border-b border-[#1e2433] hover:bg-[#08090e] transition-colors"
                 >
                   <td className="px-4 py-3 text-sm text-gray-300">{index + 1}</td>
                   <td className="px-4 py-3 text-sm text-white font-medium">
@@ -183,12 +183,12 @@ export function RequestSummaryTable({
             )}
           </tbody>
           {items.length > 0 && (
-            <tfoot className="bg-[#1a1a1a] border-t-2 border-[#2d8659]">
+            <tfoot className="bg-[#08090e] border-t-2 border-[#f97316]">
               <tr>
                 <td colSpan={6} className="px-4 py-3 text-right text-sm font-bold text-white">
                   Total Estimated Value:
                 </td>
-                <td className="px-4 py-3 text-right text-lg font-bold text-[#2d8659]">
+                <td className="px-4 py-3 text-right text-lg font-bold text-[#f97316]">
                   ₱{totalValue.toFixed(2)}
                 </td>
                 <td></td>
@@ -201,7 +201,7 @@ export function RequestSummaryTable({
       {/* Mobile Card View */}
       <div className="lg:hidden space-y-3">
         {items.length === 0 ? (
-          <div className="bg-[#1a1a1a] rounded-lg p-6 text-center text-gray-500 text-sm">
+          <div className="bg-[#08090e] rounded-lg p-6 text-center text-gray-500 text-sm">
             No items added yet. Use the search form to add products.
           </div>
         ) : (
@@ -209,7 +209,7 @@ export function RequestSummaryTable({
             {items.map((item, index) => (
               <div
                 key={index}
-                className="bg-[#1a1a1a] rounded-lg p-4 border border-gray-700 space-y-3"
+                className="bg-[#08090e] rounded-lg p-4 border border-[#1e2433] space-y-3"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
@@ -238,15 +238,15 @@ export function RequestSummaryTable({
                   </div>
                   <div>
                     <div className="text-gray-400 text-xs mb-1">Total</div>
-                    <div className="text-[#2d8659] font-semibold">₱{item.total.toFixed(2)}</div>
+                    <div className="text-[#f97316] font-semibold">₱{item.total.toFixed(2)}</div>
                   </div>
                 </div>
               </div>
             ))}
-            <div className="bg-[#1a1a1a] rounded-lg p-4 border-2 border-[#2d8659]">
+            <div className="bg-[#08090e] rounded-lg p-4 border-2 border-[#f97316]">
               <div className="flex justify-between items-center">
                 <span className="text-white font-bold">Total Estimated Value:</span>
-                <span className="text-[#2d8659] font-bold text-lg">₱{totalValue.toFixed(2)}</span>
+                <span className="text-[#f97316] font-bold text-lg">₱{totalValue.toFixed(2)}</span>
               </div>
             </div>
           </>
@@ -255,7 +255,7 @@ export function RequestSummaryTable({
 
       {/* Submit Section */}
       {items.length > 0 && (
-        <div className="space-y-4 pt-4 border-t border-gray-700">
+        <div className="space-y-4 pt-4 border-t border-[#1e2433]">
           <div>
             <Label htmlFor="submittedBy" className="text-gray-300 text-sm mb-2 block">
               Submitted By (Your Name)
@@ -266,7 +266,7 @@ export function RequestSummaryTable({
               placeholder="Enter your name..."
               value={submittedBy}
               onChange={(e) => setSubmittedBy(e.target.value)}
-              className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659]"
+              className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316]"
             />
           </div>
           <div>
@@ -279,7 +279,7 @@ export function RequestSummaryTable({
               placeholder="Enter DR number..."
               value={drNumber}
               onChange={(e) => setDrNumber(e.target.value)}
-              className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659]"
+              className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316]"
             />
           </div>
           <div>
@@ -292,12 +292,12 @@ export function RequestSummaryTable({
               placeholder="Enter client name..."
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
-              className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#2d8659]"
+              className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 focus:border-[#f97316]"
             />
           </div>
           <Button
             onClick={handleSubmit}
-            className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-3 text-lg"
+            className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-3 text-lg"
           >
             <Send className="w-5 h-5 mr-2" />
             Submit Request
@@ -306,9 +306,9 @@ export function RequestSummaryTable({
       )}
 
       {/* Historical Export Section */}
-      <div className="space-y-4 pt-6 border-t border-gray-700">
+      <div className="space-y-4 pt-6 border-t border-[#1e2433]">
         <h3 className="text-lg font-semibold text-white flex items-center">
-          <Calendar className="w-5 h-5 mr-2 text-[#2d8659]" />
+          <Calendar className="w-5 h-5 mr-2 text-[#f97316]" />
           Export Historical Data
         </h3>
         <div>
@@ -320,13 +320,13 @@ export function RequestSummaryTable({
             type="date"
             value={orderDate}
             onChange={(e) => handleOrderDateChange(e.target.value)}
-            className="bg-[#1a1a1a] border-gray-600 text-white focus:border-[#2d8659]"
+            className="bg-[#08090e] border-gray-600 text-white focus:border-[#f97316]"
           />
         </div>
         <Button
           onClick={handleExportHistorical}
           variant="outline"
-          className="w-full border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659] hover:text-white"
+          className="w-full border-[#f97316] text-[#f97316] hover:bg-[#f97316] hover:text-white"
         >
           <Download className="w-5 h-5 mr-2" />
           Export for {orderDate || 'Selected Date'}

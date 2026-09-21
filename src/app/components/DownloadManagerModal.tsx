@@ -152,14 +152,14 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
 
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Requests');
-    XLSX.writeFile(workbook, `wonderzyme_requests_${new Date().toISOString().split('T')[0]}.xlsx`);
+    XLSX.writeFile(workbook, `nexabox_requests_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
   const exportToPDF = (selectedRequests: RequestRecord[]) => {
     const doc = new jsPDF('landscape');
     
     doc.setFontSize(18);
-    doc.text('Wonderzyme Sample Requests', 14, 15);
+    doc.text('NexaBox Purchase Orders', 14, 15);
     
     doc.setFontSize(11);
     doc.text(`Total Requests: ${selectedRequests.length}`, 14, 23);
@@ -298,7 +298,7 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
       },
     });
 
-    doc.save(`wonderzyme_requests_${new Date().toISOString().split('T')[0]}.pdf`);
+    doc.save(`nexabox_requests_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   const handleDownload = () => {
@@ -332,11 +332,11 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#2d2d2d] rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl border border-gray-700">
+      <div className="bg-[#141824] rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl border border-[#1e2433]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/50">
+        <div className="flex items-center justify-between p-6 border-b border-[#1e2433]/50">
           <div className="flex items-center gap-3">
-            <Download className="w-6 h-6 text-[#2d8659]" />
+            <Download className="w-6 h-6 text-[#f97316]" />
             <div>
               <h2 className="text-2xl font-bold text-white">Download Requests</h2>
               <p className="text-sm text-gray-400">Select requests and choose download format</p>
@@ -353,11 +353,11 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
         </div>
 
         {/* Selection Controls */}
-        <div className="p-6 border-b border-gray-700/50 bg-[#1a1a1a]/30">
+        <div className="p-6 border-b border-[#1e2433]/50 bg-[#08090e]/30">
           <div className="flex items-center justify-between mb-4">
             <div className="text-sm">
               <span className="text-gray-400">Selected: </span>
-              <span className="text-[#2d8659] font-semibold text-lg">{selectedIds.size}</span>
+              <span className="text-[#f97316] font-semibold text-lg">{selectedIds.size}</span>
               <span className="text-gray-400"> of {requests.length}</span>
             </div>
             <div className="flex gap-2">
@@ -365,7 +365,7 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                 onClick={handleSelectAll}
                 size="sm"
                 variant="outline"
-                className="border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659]/20"
+                className="border-[#f97316] text-[#f97316] hover:bg-[#f97316]/20"
               >
                 Select All
               </Button>
@@ -388,15 +388,15 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                 onClick={() => setDownloadFormat('excel')}
                 className={`flex-1 p-4 rounded-lg border-2 transition-all ${
                   downloadFormat === 'excel'
-                    ? 'border-[#2d8659] bg-[#2d8659]/20'
-                    : 'border-gray-700 bg-[#1a1a1a] hover:border-gray-600'
+                    ? 'border-[#f97316] bg-[#f97316]/20'
+                    : 'border-[#1e2433] bg-[#08090e] hover:border-gray-600'
                 }`}
               >
                 <FileSpreadsheet className={`w-6 h-6 mx-auto mb-2 ${
-                  downloadFormat === 'excel' ? 'text-[#2d8659]' : 'text-gray-400'
+                  downloadFormat === 'excel' ? 'text-[#f97316]' : 'text-gray-400'
                 }`} />
                 <div className={`text-sm font-medium ${
-                  downloadFormat === 'excel' ? 'text-[#2d8659]' : 'text-gray-300'
+                  downloadFormat === 'excel' ? 'text-[#f97316]' : 'text-gray-300'
                 }`}>
                   Excel Only
                 </div>
@@ -405,15 +405,15 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                 onClick={() => setDownloadFormat('pdf')}
                 className={`flex-1 p-4 rounded-lg border-2 transition-all ${
                   downloadFormat === 'pdf'
-                    ? 'border-[#2d8659] bg-[#2d8659]/20'
-                    : 'border-gray-700 bg-[#1a1a1a] hover:border-gray-600'
+                    ? 'border-[#f97316] bg-[#f97316]/20'
+                    : 'border-[#1e2433] bg-[#08090e] hover:border-gray-600'
                 }`}
               >
                 <FileText className={`w-6 h-6 mx-auto mb-2 ${
-                  downloadFormat === 'pdf' ? 'text-[#2d8659]' : 'text-gray-400'
+                  downloadFormat === 'pdf' ? 'text-[#f97316]' : 'text-gray-400'
                 }`} />
                 <div className={`text-sm font-medium ${
-                  downloadFormat === 'pdf' ? 'text-[#2d8659]' : 'text-gray-300'
+                  downloadFormat === 'pdf' ? 'text-[#f97316]' : 'text-gray-300'
                 }`}>
                   PDF Only
                 </div>
@@ -422,20 +422,20 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                 onClick={() => setDownloadFormat('both')}
                 className={`flex-1 p-4 rounded-lg border-2 transition-all ${
                   downloadFormat === 'both'
-                    ? 'border-[#2d8659] bg-[#2d8659]/20'
-                    : 'border-gray-700 bg-[#1a1a1a] hover:border-gray-600'
+                    ? 'border-[#f97316] bg-[#f97316]/20'
+                    : 'border-[#1e2433] bg-[#08090e] hover:border-gray-600'
                 }`}
               >
                 <div className="flex items-center justify-center gap-1 mb-2">
                   <FileSpreadsheet className={`w-5 h-5 ${
-                    downloadFormat === 'both' ? 'text-[#2d8659]' : 'text-gray-400'
+                    downloadFormat === 'both' ? 'text-[#f97316]' : 'text-gray-400'
                   }`} />
                   <FileText className={`w-5 h-5 ${
-                    downloadFormat === 'both' ? 'text-[#2d8659]' : 'text-gray-400'
+                    downloadFormat === 'both' ? 'text-[#f97316]' : 'text-gray-400'
                   }`} />
                 </div>
                 <div className={`text-sm font-medium ${
-                  downloadFormat === 'both' ? 'text-[#2d8659]' : 'text-gray-300'
+                  downloadFormat === 'both' ? 'text-[#f97316]' : 'text-gray-300'
                 }`}>
                   Both Formats
                 </div>
@@ -453,14 +453,14 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                 onClick={() => handleToggleSelect(request.id)}
                 className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                   selectedIds.has(request.id)
-                    ? 'border-[#2d8659] bg-[#2d8659]/10'
-                    : 'border-gray-700 bg-[#1a1a1a] hover:border-gray-600'
+                    ? 'border-[#f97316] bg-[#f97316]/10'
+                    : 'border-[#1e2433] bg-[#08090e] hover:border-gray-600'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div className="mt-1">
                     {selectedIds.has(request.id) ? (
-                      <CheckSquare className="w-5 h-5 text-[#2d8659]" />
+                      <CheckSquare className="w-5 h-5 text-[#f97316]" />
                     ) : (
                       <Square className="w-5 h-5 text-gray-600" />
                     )}
@@ -479,7 +479,7 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                           })}
                         </span>
                       </div>
-                      <span className="text-[#2d8659] text-sm font-semibold">
+                      <span className="text-[#f97316] text-sm font-semibold">
                         DR# {request.drNumber}
                       </span>
                     </div>
@@ -492,7 +492,7 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
                         <Package className="w-3 h-3" />
                         {request.items.length} items
                       </div>
-                      <div className="text-[#2d8659] font-semibold">
+                      <div className="text-[#f97316] font-semibold">
                         ₱{request.totalValue.toFixed(2)}
                       </div>
                     </div>
@@ -504,14 +504,14 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-700/50 bg-[#1a1a1a]/30">
+        <div className="p-6 border-t border-[#1e2433]/50 bg-[#08090e]/30">
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-400">
               {selectedIds.size === 0 && 'Select at least one request to download'}
               {selectedIds.size > 0 && (
                 <>
-                  Ready to download <span className="text-[#2d8659] font-semibold">{selectedIds.size}</span> {selectedIds.size === 1 ? 'request' : 'requests'} as{' '}
-                  <span className="text-[#2d8659] font-semibold">
+                  Ready to download <span className="text-[#f97316] font-semibold">{selectedIds.size}</span> {selectedIds.size === 1 ? 'request' : 'requests'} as{' '}
+                  <span className="text-[#f97316] font-semibold">
                     {downloadFormat === 'excel' ? 'Excel' : downloadFormat === 'pdf' ? 'PDF' : 'Excel & PDF'}
                   </span>
                 </>
@@ -528,7 +528,7 @@ export function DownloadManagerModal({ isOpen, onClose, requests }: DownloadMana
               <Button
                 onClick={handleDownload}
                 disabled={selectedIds.size === 0}
-                className="bg-[#2d8659] hover:bg-[#238b4d] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#f97316] hover:bg-[#ea6a09] text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download {selectedIds.size > 0 && `(${selectedIds.size})`}

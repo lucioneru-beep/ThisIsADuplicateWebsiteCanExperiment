@@ -144,11 +144,11 @@ export function StockManagementModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-[#2d2d2d] rounded-lg w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+      <div className="bg-[#141824] rounded-lg w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="p-4 sm:p-6 border-b border-gray-700 flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-b border-[#1e2433] flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Package2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#2d8659]" />
+            <Package2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#f97316]" />
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white">Stock Management</h2>
               <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">Adjust inventory levels for all products</p>
@@ -163,7 +163,7 @@ export function StockManagementModal({
         </div>
 
         {/* Search Bar */}
-        <div className="p-4 sm:p-6 border-b border-gray-700">
+        <div className="p-4 sm:p-6 border-b border-[#1e2433]">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
             <Input
@@ -171,7 +171,7 @@ export function StockManagementModal({
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 sm:pl-10 bg-[#1a1a1a] border-gray-600 text-white placeholder-gray-500 text-sm sm:text-base"
+              className="pl-9 sm:pl-10 bg-[#08090e] border-gray-600 text-white placeholder-gray-500 text-sm sm:text-base"
             />
           </div>
         </div>
@@ -188,7 +188,7 @@ export function StockManagementModal({
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-[#1a1a1a] rounded-lg p-3 sm:p-4 border border-gray-700"
+                  className="bg-[#08090e] rounded-lg p-3 sm:p-4 border border-[#1e2433]"
                 >
                   <div className="flex items-start justify-between mb-2 sm:mb-3">
                     <div>
@@ -196,7 +196,7 @@ export function StockManagementModal({
                       <p className="text-xs sm:text-sm text-gray-400">{product.category}</p>
                     </div>
                     {adjustments[product.id] && (
-                      <span className="text-xs bg-[#2d8659]/20 text-[#2d8659] px-2 py-1 rounded">
+                      <span className="text-xs bg-[#f97316]/20 text-[#f97316] px-2 py-1 rounded">
                         Modified
                       </span>
                     )}
@@ -221,13 +221,13 @@ export function StockManagementModal({
                         <div
                           key={sizeInfo.size}
                           className={`flex flex-col gap-2 p-3 rounded ${
-                            hasStockChanged || hasPriceChanged ? 'bg-[#2d8659]/10 border border-[#2d8659]/30' : 'bg-[#2d2d2d]'
+                            hasStockChanged || hasPriceChanged ? 'bg-[#f97316]/10 border border-[#f97316]/30' : 'bg-[#141824]'
                           }`}
                         >
                           <div className="flex items-center justify-between">
                             <span className="text-white font-medium text-sm sm:text-base">{sizeInfo.size}</span>
                             {(hasStockChanged || hasPriceChanged) && (
-                              <span className="text-xs bg-[#2d8659]/30 text-[#2d8659] px-2 py-1 rounded">
+                              <span className="text-xs bg-[#f97316]/30 text-[#f97316] px-2 py-1 rounded">
                                 Modified
                               </span>
                             )}
@@ -266,7 +266,7 @@ export function StockManagementModal({
                                 onChange={(e) =>
                                   handleDirectInput(product.id, sizeInfo.size, e.target.value)
                                 }
-                                className="w-16 sm:w-20 text-center bg-[#1a1a1a] border-gray-600 text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="w-16 sm:w-20 text-center bg-[#08090e] border-gray-600 text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               />
 
                               <Button
@@ -275,7 +275,7 @@ export function StockManagementModal({
                                 onClick={() =>
                                   handleAdjustment(product.id, sizeInfo.size, currentStock, 1)
                                 }
-                                className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-gray-600 hover:bg-[#2d8659]/30 hover:border-[#2d8659] text-xs"
+                                className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-gray-600 hover:bg-[#f97316]/30 hover:border-[#f97316] text-xs"
                               >
                                 +1
                               </Button>
@@ -286,7 +286,7 @@ export function StockManagementModal({
                                 onClick={() =>
                                   handleAdjustment(product.id, sizeInfo.size, currentStock, 10)
                                 }
-                                className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-gray-600 hover:bg-[#2d8659]/30 hover:border-[#2d8659]"
+                                className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-gray-600 hover:bg-[#f97316]/30 hover:border-[#f97316]"
                               >
                                 <Plus className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                               </Button>
@@ -294,7 +294,7 @@ export function StockManagementModal({
                             {hasStockChanged && (
                               <div className="text-xs text-gray-400 ml-2">
                                 <span className="line-through">{sizeInfo.stock}</span>
-                                <span className="text-[#2d8659] ml-1">→ {currentStock}</span>
+                                <span className="text-[#f97316] ml-1">→ {currentStock}</span>
                               </div>
                             )}
                           </div>
@@ -312,13 +312,13 @@ export function StockManagementModal({
                                 onChange={(e) =>
                                   handlePriceInput(product.id, sizeInfo.size, e.target.value)
                                 }
-                                className="pl-7 bg-[#1a1a1a] border-gray-600 text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="pl-7 bg-[#08090e] border-gray-600 text-white text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               />
                             </div>
                             {hasPriceChanged && (
                               <div className="text-xs text-gray-400 ml-2">
                                 <span className="line-through">₱{sizeInfo.price.toFixed(2)}</span>
-                                <span className="text-[#2d8659] ml-1">→ ₱{currentPrice.toFixed(2)}</span>
+                                <span className="text-[#f97316] ml-1">→ ₱{currentPrice.toFixed(2)}</span>
                               </div>
                             )}
                           </div>
@@ -333,10 +333,10 @@ export function StockManagementModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-6 border-t border-gray-700 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="p-4 sm:p-6 border-t border-[#1e2433] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="text-xs sm:text-sm text-gray-400 text-center sm:text-left">
             {hasChanges ? (
-              <span className="text-[#2d8659]">
+              <span className="text-[#f97316]">
                 {Object.values(adjustments).reduce((acc, sizes) => acc + Object.keys(sizes).length, 0)} item(s) modified
               </span>
             ) : (
@@ -347,14 +347,14 @@ export function StockManagementModal({
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex-1 sm:flex-initial border-gray-600 text-gray-300 hover:bg-[#1a1a1a]"
+              className="flex-1 sm:flex-initial border-gray-600 text-gray-300 hover:bg-[#08090e]"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSaveAll}
               disabled={!hasChanges || saving}
-              className="flex-1 sm:flex-initial bg-[#2d8659] hover:bg-[#238b4d] text-white"
+              className="flex-1 sm:flex-initial bg-[#f97316] hover:bg-[#ea6a09] text-white"
             >
               <Save className="w-4 h-4 mr-2" />
               {saving ? 'Saving...' : 'Save'}

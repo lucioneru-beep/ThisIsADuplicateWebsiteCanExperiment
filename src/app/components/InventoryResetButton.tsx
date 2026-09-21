@@ -46,7 +46,7 @@ export function InventoryResetButton({ onReset, apiBase, authToken }: InventoryR
       disabled={resetting}
       variant="outline"
       size="sm"
-      className="border-gray-600 text-gray-400 hover:bg-[#1a1a1a] hover:text-white hover:border-[#2d8659] flex-1 sm:flex-initial"
+      className="border-gray-600 text-gray-400 hover:bg-[#08090e] hover:text-white hover:border-[#f97316] flex-1 sm:flex-initial"
     >
       <RefreshCw className={`w-4 h-4 sm:mr-2 ${resetting ? 'animate-spin' : ''}`} />
       <span className="hidden sm:inline">{resetting ? 'Resetting...' : 'Reset Inventory'}</span>

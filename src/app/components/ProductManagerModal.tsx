@@ -13,6 +13,7 @@ interface ProductManagerModalProps {
   apiBase: string;
   authToken: string;
   onProductsChanged: () => void;
+  demoMode?: boolean;
 }
 
 export function ProductManagerModal({
@@ -21,7 +22,8 @@ export function ProductManagerModal({
   products,
   apiBase,
   authToken,
-  onProductsChanged
+  onProductsChanged,
+  demoMode = false,
 }: ProductManagerModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -40,6 +42,7 @@ export function ProductManagerModal({
   });
 
   const handleDeleteProduct = async (product: Product) => {
+    if (demoMode) { toast.info('Demo mode — deleting products is disabled'); setProductToDelete(null); return; }
     setIsDeleting(true);
     try {
       const response = await fetch(`${apiBase}/inventory/delete-product`, {
@@ -71,6 +74,7 @@ export function ProductManagerModal({
   };
 
   const handleDeleteCategory = async (category: string) => {
+    if (demoMode) { toast.info('Demo mode — deleting categories is disabled'); return; }
     setIsDeleting(true);
     try {
       // Get all products in this category
@@ -122,9 +126,9 @@ export function ProductManagerModal({
   return (
     <>
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-        <div className="bg-[#2d2d2d] rounded-xl w-full max-w-6xl max-h-[90vh] overflow-hidden border border-gray-700 flex flex-col">
+        <div className="bg-[#141824] rounded-xl w-full max-w-6xl max-h-[90vh] overflow-hidden border border-[#1e2433] flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-700">
+          <div className="flex items-center justify-between p-6 border-b border-[#1e2433]">
             <div className="flex items-center gap-3">
               <div className="bg-purple-500/20 p-2 rounded-lg">
                 <Package className="w-6 h-6 text-purple-500" />
@@ -143,7 +147,7 @@ export function ProductManagerModal({
           </div>
 
           {/* Filters */}
-          <div className="p-6 border-b border-gray-700 space-y-4">
+          <div className="p-6 border-b border-[#1e2433] space-y-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -152,7 +156,7 @@ export function ProductManagerModal({
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="pl-10 bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
             </div>
@@ -164,8 +168,8 @@ export function ProductManagerModal({
                     onClick={() => setSelectedCategory(cat.name)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       selectedCategory === cat.name
-                        ? 'bg-[#2d8659] text-white'
-                        : 'bg-[#1a1a1a] text-gray-400 hover:bg-gray-700'
+                        ? 'bg-[#f97316] text-white'
+                        : 'bg-[#08090e] text-gray-400 hover:bg-gray-700'
                     }`}
                   >
                     {cat.name}
@@ -197,13 +201,13 @@ export function ProductManagerModal({
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-all"
+                    className="bg-[#08090e] border border-[#1e2433] rounded-lg p-4 hover:border-gray-600 transition-all"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-white font-semibold">{product.name}</h3>
-                          <span className="text-xs px-2 py-1 rounded bg-[#2d8659]/20 text-[#2d8659] border border-[#2d8659]/30">
+                          <span className="text-xs px-2 py-1 rounded bg-[#f97316]/20 text-[#f97316] border border-[#f97316]/30">
                             {product.category}
                           </span>
                         </div>
@@ -211,7 +215,7 @@ export function ProductManagerModal({
                           {product.sizes.map((size, idx) => (
                             <div
                               key={idx}
-                              className="bg-[#2d2d2d] border border-gray-600 rounded px-3 py-1.5 text-xs"
+                              className="bg-[#141824] border border-gray-600 rounded px-3 py-1.5 text-xs"
                             >
                               <span className="text-gray-400">{size.size}:</span>
                               <span className="text-white ml-1 font-medium">₱{size.price}</span>
@@ -244,7 +248,7 @@ export function ProductManagerModal({
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-700 p-6">
+          <div className="border-t border-[#1e2433] p-6">
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-400">
                 Showing {filteredProducts.length} of {products.length} products
@@ -273,13 +277,14 @@ export function ProductManagerModal({
             setProductToEdit(null);
             onProductsChanged();
           }}
+          demoMode={demoMode}
         />
       )}
 
       {/* Delete Product Confirmation Modal */}
       {productToDelete && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[60] p-4">
-          <div className="bg-[#2d2d2d] rounded-xl w-full max-w-md border border-red-500/30">
+          <div className="bg-[#141824] rounded-xl w-full max-w-md border border-red-500/30">
             <div className="p-6">
               <div className="flex items-start gap-4">
                 <div className="bg-red-500/20 p-3 rounded-lg">
@@ -299,7 +304,7 @@ export function ProductManagerModal({
                 </div>
               </div>
             </div>
-            <div className="border-t border-gray-700 p-4 flex gap-3">
+            <div className="border-t border-[#1e2433] p-4 flex gap-3">
               <Button
                 onClick={() => setProductToDelete(null)}
                 variant="outline"
@@ -323,7 +328,7 @@ export function ProductManagerModal({
       {/* Delete Category Confirmation Modal */}
       {categoryToDelete && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[60] p-4">
-          <div className="bg-[#2d2d2d] rounded-xl w-full max-w-md border border-red-500/30">
+          <div className="bg-[#141824] rounded-xl w-full max-w-md border border-red-500/30">
             <div className="p-6">
               <div className="flex items-start gap-4">
                 <div className="bg-red-500/20 p-3 rounded-lg">
@@ -347,7 +352,7 @@ export function ProductManagerModal({
                 </div>
               </div>
             </div>
-            <div className="border-t border-gray-700 p-4 flex gap-3">
+            <div className="border-t border-[#1e2433] p-4 flex gap-3">
               <Button
                 onClick={() => setCategoryToDelete(null)}
                 variant="outline"

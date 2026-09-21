@@ -206,7 +206,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
   };
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#08090e] flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <button
           onClick={onBack}
@@ -216,10 +216,10 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
           Back to Home
         </button>
 
-        <div className="bg-[#2d2d2d] rounded-xl p-8 border border-gray-700">
+        <div className="bg-[#141824] rounded-xl p-8 border border-[#1e2433]">
           <div className="flex justify-center mb-6">
-            <div className="bg-[#2d8659]/20 p-4 rounded-full">
-              <Shield className="w-12 h-12 text-[#2d8659]" />
+            <div className="bg-[#f97316]/20 p-4 rounded-full">
+              <Shield className="w-12 h-12 text-[#f97316]" />
             </div>
           </div>
 
@@ -242,7 +242,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   placeholder="admin@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                   autoComplete="email"
                 />
               </div>
@@ -256,7 +256,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                   autoComplete="current-password"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
@@ -276,7 +276,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
               <Button
                 onClick={handleLogin}
                 disabled={loading}
-                className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-6 text-lg"
+                className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-6 text-lg"
               >
                 {loading ? (
                   <>
@@ -293,9 +293,9 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
             </div>
           ) : step === 'otp' ? (
             <div className="space-y-4">
-              <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4 mb-4">
+              <div className="bg-[#08090e] border border-[#1e2433] rounded-lg p-4 mb-4">
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-[#2d8659] mt-0.5" />
+                  <Mail className="w-5 h-5 text-[#f97316] mt-0.5" />
                   <div>
                     <p className="text-white text-sm font-medium mb-1">
                       OTP sent to your email
@@ -320,7 +320,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   maxLength={4}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 text-center text-2xl tracking-widest"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 text-center text-2xl tracking-widest"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && otp.length === 4) {
                       handleVerifyOTP();
@@ -331,7 +331,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
               <Button
                 onClick={handleVerifyOTP}
                 disabled={loading || otp.length !== 4}
-                className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-6 text-lg"
+                className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-6 text-lg"
               >
                 {loading ? (
                   <>
@@ -364,14 +364,14 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   placeholder="admin@company.com"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                   autoComplete="email"
                 />
               </div>
               <Button
                 onClick={handleForgotPassword}
                 disabled={loading}
-                className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-6 text-lg"
+                className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-6 text-lg"
               >
                 {loading ? (
                   <>
@@ -391,9 +391,9 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
             </div>
           ) : step === 'reset-otp' ? (
             <div className="space-y-4">
-              <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4 mb-4">
+              <div className="bg-[#08090e] border border-[#1e2433] rounded-lg p-4 mb-4">
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-[#2d8659] mt-0.5" />
+                  <Mail className="w-5 h-5 text-[#f97316] mt-0.5" />
                   <div>
                     <p className="text-white text-sm font-medium mb-1">
                       OTP sent to your email
@@ -418,7 +418,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   maxLength={4}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 text-center text-2xl tracking-widest"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 text-center text-2xl tracking-widest"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && otp.length === 4) {
                       handleVerifyResetOTP();
@@ -429,7 +429,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
               <Button
                 onClick={handleVerifyResetOTP}
                 disabled={loading || otp.length !== 4}
-                className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-6 text-lg"
+                className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-6 text-lg"
               >
                 {loading ? (
                   <>
@@ -462,7 +462,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   placeholder="Enter your new password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                   autoComplete="new-password"
                 />
               </div>
@@ -476,14 +476,14 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
                   placeholder="Confirm your new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                   autoComplete="new-password"
                 />
               </div>
               <Button
                 onClick={handleResetPassword}
                 disabled={loading}
-                className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-6 text-lg"
+                className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-6 text-lg"
               >
                 {loading ? (
                   <>
@@ -504,7 +504,7 @@ export function AdminAuth({ onBack, onAuthenticated, apiBase, authToken }: Admin
           ) : null}
         </div>
 
-        <div className="mt-6 bg-[#2d2d2d] border border-gray-700 rounded-lg p-4">
+        <div className="mt-6 bg-[#141824] border border-[#1e2433] rounded-lg p-4">
           <p className="text-gray-400 text-xs text-center">
             🔒 This is a secure area. All login attempts are monitored.
           </p>

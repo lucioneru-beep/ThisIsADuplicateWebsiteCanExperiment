@@ -67,11 +67,11 @@ export function AdminRequestCart({
   };
 
   return (
-    <div className="bg-[#2d2d2d] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="bg-[#141824] rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
       {items.length === 0 ? (
         /* Empty State */
         <div className="text-center py-8">
-          <div className="bg-[#1a1a1a] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+          <div className="bg-[#08090e] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
             <span className="text-4xl">📦</span>
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">Current Request Cart</h3>
@@ -86,38 +86,38 @@ export function AdminRequestCart({
           </div>
 
           {/* Request Items Table */}
-          <div className="overflow-x-auto border border-gray-700 rounded-lg">
+          <div className="overflow-x-auto border border-[#1e2433] rounded-lg">
             <table className="w-full">
-              <thead className="bg-[#1a1a1a]">
+              <thead className="bg-[#08090e]">
                 <tr>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     #
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Product
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Size
                   </th>
-                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Qty
                   </th>
-                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Price
                   </th>
-                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Total
                   </th>
-                  <th className="px-3 py-2 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-gray-700">
+                  <th className="px-3 py-2 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider border-b border-[#1e2433]">
                     Action
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-[#2d2d2d]">
+              <tbody className="bg-[#141824]">
                 {items.map((item, index) => (
                   <tr
                     key={index}
-                    className="border-b border-gray-700 hover:bg-[#1a1a1a] transition-colors"
+                    className="border-b border-[#1e2433] hover:bg-[#08090e] transition-colors"
                   >
                     <td className="px-3 py-2 text-sm text-gray-300">{index + 1}</td>
                     <td className="px-3 py-2 text-sm text-white font-medium">
@@ -144,12 +144,12 @@ export function AdminRequestCart({
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-[#1a1a1a] border-t-2 border-[#2d8659]">
+              <tfoot className="bg-[#08090e] border-t-2 border-[#f97316]">
                 <tr>
                   <td colSpan={5} className="px-3 py-2 text-right text-sm font-bold text-white">
                     Total Estimated Value:
                   </td>
-                  <td className="px-3 py-2 text-right text-lg font-bold text-[#2d8659]">
+                  <td className="px-3 py-2 text-right text-lg font-bold text-[#f97316]">
                     ₱{totalValue.toFixed(2)}
                   </td>
                   <td></td>
@@ -159,7 +159,7 @@ export function AdminRequestCart({
           </div>
 
           {/* Submission Form */}
-          <div className="bg-[#1a1a1a] rounded-lg p-4 space-y-4">
+          <div className="bg-[#08090e] rounded-lg p-4 space-y-4">
             <h3 className="text-lg font-semibold text-white mb-3">Request Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
@@ -171,7 +171,7 @@ export function AdminRequestCart({
                   placeholder="Your name"
                   value={submittedBy}
                   onChange={(e) => setSubmittedBy(e.target.value)}
-                  className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
               <div>
@@ -183,7 +183,7 @@ export function AdminRequestCart({
                   placeholder="DR-12345"
                   value={drNumber}
                   onChange={(e) => setDrNumber(e.target.value)}
-                  className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
               <div>
@@ -195,7 +195,7 @@ export function AdminRequestCart({
                   placeholder="Client name"
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
-                  className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
               <div className="md:col-span-2">
@@ -207,7 +207,7 @@ export function AdminRequestCart({
                   placeholder="Complete delivery address"
                   value={deliveryAddress}
                   onChange={(e) => setDeliveryAddress(e.target.value)}
-                  className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
               <div>
@@ -219,7 +219,7 @@ export function AdminRequestCart({
                   type="date"
                   value={deliveryDate}
                   onChange={(e) => setDeliveryDate(e.target.value)}
-                  className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500"
+                  className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500"
                 />
               </div>
             </div>
@@ -232,12 +232,12 @@ export function AdminRequestCart({
                 placeholder="Add special instructions, preferences, or comments..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-500 min-h-[100px] resize-y"
+                className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-500 min-h-[100px] resize-y"
               />
             </div>
             <Button
               onClick={handleSubmit}
-              className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-3"
+              className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-3"
             >
               <Send className="w-4 h-4 mr-2" />
               Submit Request

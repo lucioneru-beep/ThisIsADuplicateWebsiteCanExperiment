@@ -19,6 +19,7 @@ interface EditProductModalProps {
   apiBase: string;
   authToken: string;
   onProductUpdated: () => void;
+  demoMode?: boolean;
 }
 
 export function EditProductModal({
@@ -27,10 +28,11 @@ export function EditProductModal({
   product,
   apiBase,
   authToken,
-  onProductUpdated
+  onProductUpdated,
+  demoMode = false,
 }: EditProductModalProps) {
   const [productName, setProductName] = useState('');
-  const [category, setCategory] = useState<'NATUREZYME' | 'PETZYME' | 'BIOZYME'>('NATUREZYME');
+  const [category, setCategory] = useState<'SMART HOME' | 'AUDIO' | 'PERIPHERALS'>('SMART HOME');
   const [sizes, setSizes] = useState<ProductSize[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +40,7 @@ export function EditProductModal({
   useEffect(() => {
     if (product) {
       setProductName(product.name);
-      setCategory(product.category as 'NATUREZYME' | 'PETZYME' | 'BIOZYME');
+      setCategory(product.category as 'SMART HOME' | 'AUDIO' | 'PERIPHERALS');
       setSizes([...product.sizes]);
     }
   }, [product]);
@@ -90,6 +92,7 @@ export function EditProductModal({
       }
     }
 
+    if (demoMode) { toast.info('Demo mode — editing products is disabled'); return; }
     setLoading(true);
     try {
       const response = await fetch(`${apiBase}/inventory/edit-product`, {
@@ -131,9 +134,9 @@ export function EditProductModal({
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#2d2d2d] rounded-xl w-full max-w-3xl max-h-[90vh] overflow-hidden border border-gray-700 flex flex-col">
+      <div className="bg-[#141824] rounded-xl w-full max-w-3xl max-h-[90vh] overflow-hidden border border-[#1e2433] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
+        <div className="flex items-center justify-between p-6 border-b border-[#1e2433]">
           <div className="flex items-center gap-3">
             <div className="bg-blue-500/20 p-2 rounded-lg">
               <Edit3 className="w-6 h-6 text-blue-500" />
@@ -164,7 +167,7 @@ export function EditProductModal({
               placeholder="e.g., All Purpose Liquid Cleaner"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
-              className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+              className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
             />
           </div>
 
@@ -174,14 +177,14 @@ export function EditProductModal({
               Category *
             </Label>
             <div className="grid grid-cols-3 gap-3">
-              {(['NATUREZYME', 'PETZYME', 'BIOZYME'] as const).map((cat) => (
+              {(['SMART HOME', 'AUDIO', 'PERIPHERALS'] as const).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`p-3 rounded-lg border-2 transition-all ${
                     category === cat
-                      ? 'border-[#2d8659] bg-[#2d8659]/20 text-white'
-                      : 'border-gray-600 bg-[#1a1a1a] text-gray-400 hover:border-gray-500'
+                      ? 'border-[#f97316] bg-[#f97316]/20 text-white'
+                      : 'border-gray-600 bg-[#08090e] text-gray-400 hover:border-gray-500'
                   }`}
                 >
                   <span className="font-medium">{cat}</span>
@@ -198,7 +201,7 @@ export function EditProductModal({
               </Label>
               <Button
                 onClick={handleAddSize}
-                className="bg-[#2d8659] hover:bg-[#238b4d] text-white text-sm px-3 py-1"
+                className="bg-[#f97316] hover:bg-[#ea6a09] text-white text-sm px-3 py-1"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Add Size
@@ -209,7 +212,7 @@ export function EditProductModal({
               {sizes.map((size, index) => (
                 <div
                   key={index}
-                  className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4"
+                  className="bg-[#08090e] border border-[#1e2433] rounded-lg p-4"
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -223,7 +226,7 @@ export function EditProductModal({
                           placeholder="e.g., Gallon"
                           value={size.size}
                           onChange={(e) => handleSizeChange(index, 'size', e.target.value)}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm"
                         />
                       </div>
                       <div>
@@ -248,7 +251,7 @@ export function EditProductModal({
                               }
                             }
                           }}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                       </div>
                       <div>
@@ -273,7 +276,7 @@ export function EditProductModal({
                               }
                             }
                           }}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                       </div>
                     </div>
@@ -300,7 +303,7 @@ export function EditProductModal({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-700 p-6 flex gap-3">
+        <div className="border-t border-[#1e2433] p-6 flex gap-3">
           <Button
             onClick={onClose}
             variant="outline"

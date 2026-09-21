@@ -27,354 +27,30 @@ const initializeInventory = async () => {
   const inventoryExists = await kv.get("inventory_initialized");
   if (!inventoryExists) {
     const inventory = [
-      // NATUREZYME Products
-      {
-        id: "nat-apc",
-        name: "All Purpose Liquid Cleaner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 250, stock: 45 },
-          { size: "Carboy", price: 1100, stock: 18 }
-        ]
-      },
-      {
-        id: "nat-appc",
-        name: "All Purpose Powder Cleaner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "1 Kilo", price: 200, stock: 40 }
-        ]
-      },
-      {
-        id: "nat-pld-fp",
-        name: "Powder Laundry Detergent (Floral Passion)",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "1 Kilo", price: 180, stock: 50 }
-        ]
-      },
-      {
-        id: "nat-tbc",
-        name: "Toilet Bowl Cleaner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 220, stock: 35 }
-        ]
-      },
-      {
-        id: "nat-fc",
-        name: "Fabric Conditioner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 200, stock: 42 }
-        ]
-      },
-      {
-        id: "nat-ld-fp",
-        name: "Laundry Detergent (Liquid - Floral Passion)",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 240, stock: 38 }
-        ]
-      },
-      {
-        id: "nat-wb",
-        name: "Wonrox Bleach",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 200, stock: 48 }
-        ]
-      },
-      {
-        id: "nat-ac",
-        name: "Alkaline Cleaner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 280, stock: 30 }
-        ]
-      },
-      {
-        id: "nat-dc-lemon",
-        name: "Dishwashing Concentrate - Lemon",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 230, stock: 45 },
-          { size: "500mL", price: 130, stock: 60 },
-          { size: "250mL", price: 75, stock: 80 }
-        ]
-      },
-      {
-        id: "nat-dc-kalamansi",
-        name: "Dishwashing Concentrate - Kalamansi",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Gallon", price: 230, stock: 45 },
-          { size: "500mL", price: 130, stock: 60 },
-          { size: "250mL", price: 75, stock: 80 }
-        ]
-      },
-      {
-        id: "nat-mpds-bamboo",
-        name: "Multi-Protect Disinfectant Spray - Bamboo",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1250, stock: 15 },
-          { size: "Gallon", price: 280, stock: 35 },
-          { size: "Liter", price: 320, stock: 50 },
-          { size: "500mL", price: 180, stock: 65 },
-          { size: "100mL", price: 45, stock: 100 }
-        ]
-      },
-      {
-        id: "nat-mpds-citrus",
-        name: "Multi-Protect Disinfectant Spray - Citrus",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1250, stock: 15 },
-          { size: "Gallon", price: 280, stock: 35 },
-          { size: "Liter", price: 320, stock: 50 },
-          { size: "500mL", price: 180, stock: 65 },
-          { size: "100mL", price: 45, stock: 100 }
-        ]
-      },
-      {
-        id: "nat-ndc",
-        name: "Natural Disinfectant Concentrate",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Drum", price: 4500, stock: 8 },
-          { size: "Carboy", price: 1200, stock: 20 },
-          { size: "Gallon", price: 270, stock: 40 },
-          { size: "Liter", price: 300, stock: 55 }
-        ]
-      },
-      {
-        id: "nat-ep-pfe",
-        name: "Eliminator Plus (Plant Fiber Extract)",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Drum", price: 5000, stock: 6 },
-          { size: "Carboy", price: 1400, stock: 15 },
-          { size: "Gallon", price: 320, stock: 30 },
-          { size: "Liter", price: 350, stock: 45 }
-        ]
-      },
-      {
-        id: "nat-hs-wild-ginger",
-        name: "Helmet Spray - Wild Ginger",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "50mL", price: 35, stock: 120 }
-        ]
-      },
-      {
-        id: "nat-hs-sandalwood",
-        name: "Helmet Spray - Sandalwood",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "50mL", price: 35, stock: 120 }
-        ]
-      },
-      {
-        id: "nat-cmos",
-        name: "Citronella Mosquito-Off Spray",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1100, stock: 18 },
-          { size: "Gallon", price: 250, stock: 40 },
-          { size: "Liter", price: 280, stock: 60 },
-          { size: "250mL", price: 85, stock: 75 },
-          { size: "50mL", price: 30, stock: 110 }
-        ]
-      },
-      {
-        id: "nat-cns-cinnamon",
-        name: "Citronella Natural Spray - Cinnamon",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1150, stock: 16 },
-          { size: "Gallon", price: 260, stock: 38 },
-          { size: "Liter", price: 290, stock: 58 },
-          { size: "250mL", price: 90, stock: 72 },
-          { size: "50mL", price: 32, stock: 105 }
-        ]
-      },
-      {
-        id: "nat-cns-lemon-eucalyptus",
-        name: "Citronella Natural Spray - Lemon-Eucalyptus",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1150, stock: 16 },
-          { size: "Gallon", price: 260, stock: 38 },
-          { size: "Liter", price: 290, stock: 58 },
-          { size: "250mL", price: 90, stock: 72 },
-          { size: "50mL", price: 32, stock: 105 }
-        ]
-      },
-      {
-        id: "nat-cns-lavender",
-        name: "Citronella Natural Spray - Lavender",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1150, stock: 16 },
-          { size: "Gallon", price: 260, stock: 38 },
-          { size: "Liter", price: 290, stock: 58 },
-          { size: "250mL", price: 90, stock: 72 },
-          { size: "50mL", price: 32, stock: 105 }
-        ]
-      },
-      {
-        id: "nat-mpc",
-        name: "Multi-Purpose Cleaner",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1050, stock: 20 },
-          { size: "Gallon", price: 240, stock: 42 },
-          { size: "Liter", price: 270, stock: 62 },
-          { size: "500mL", price: 150, stock: 70 }
-        ]
-      },
-      {
-        id: "nat-fs",
-        name: "Fogging Solution",
-        category: "NATUREZYME",
-        sizes: [
-          { size: "Carboy", price: 1300, stock: 12 },
-          { size: "Gallon", price: 300, stock: 28 }
-        ]
-      },
-      // PETZYME Products
-      {
-        id: "pet-ssb-mdc",
-        name: "Soap & Shampoo Bar (Madre de Cacao)",
-        category: "PETZYME",
-        sizes: [
-          { size: "100g", price: 50, stock: 130 }
-        ]
-      },
-      {
-        id: "pet-ssb-orig",
-        name: "Soap & Shampoo Bar (Original)",
-        category: "PETZYME",
-        sizes: [
-          { size: "100g", price: 45, stock: 140 }
-        ]
-      },
-      {
-        id: "pet-bmsb",
-        name: "Bergamot Medicated Soap Bar",
-        category: "PETZYME",
-        sizes: [
-          { size: "100g", price: 55, stock: 110 }
-        ]
-      },
-      {
-        id: "pet-pas-vanilla",
-        name: "Pet Area Spray - Vanilla",
-        category: "PETZYME",
-        sizes: [
-          { size: "Carboy", price: 1200, stock: 15 },
-          { size: "Gallon", price: 270, stock: 35 },
-          { size: "Liter", price: 300, stock: 50 },
-          { size: "500mL", price: 170, stock: 68 }
-        ]
-      },
-      {
-        id: "pet-pas-bergamot",
-        name: "Pet Area Spray - Bergamot",
-        category: "PETZYME",
-        sizes: [
-          { size: "Carboy", price: 1200, stock: 15 },
-          { size: "Gallon", price: 270, stock: 35 },
-          { size: "Liter", price: 300, stock: 50 },
-          { size: "500mL", price: 170, stock: 68 }
-        ]
-      },
-      {
-        id: "pet-pacs-mdc",
-        name: "Pet Area Cleaning Solution (Madre de Cacao)",
-        category: "PETZYME",
-        sizes: [
-          { size: "Gallon", price: 260, stock: 40 }
-        ]
-      },
-      {
-        id: "pet-2in1-sc",
-        name: "2-in-1 Pet Shampoo & Conditioner",
-        category: "PETZYME",
-        sizes: [
-          { size: "Gallon", price: 290, stock: 32 },
-          { size: "Liter", price: 320, stock: 48 },
-          { size: "500mL", price: 180, stock: 65 }
-        ]
-      },
-      {
-        id: "pet-pbs",
-        name: "Pet Breath Spray",
-        category: "PETZYME",
-        sizes: [
-          { size: "50mL", price: 40, stock: 95 }
-        ]
-      },
-      {
-        id: "pet-pc",
-        name: "Pet Cologne",
-        category: "PETZYME",
-        sizes: [
-          { size: "100mL", price: 90, stock: 85 }
-        ]
-      },
-      // BIOZYME Products
-      {
-        id: "bio-alcogel",
-        name: "Alcogel (Antibacterial Hand Sanitizer)",
-        category: "BIOZYME",
-        sizes: [
-          { size: "Gallon", price: 320, stock: 55 }
-        ]
-      },
-      {
-        id: "bio-lhs-green-apple",
-        name: "Liquid Hand Soap - Green Apple",
-        category: "BIOZYME",
-        sizes: [
-          { size: "Gallon", price: 240, stock: 48 },
-          { size: "500mL", price: 140, stock: 72 }
-        ]
-      },
-      {
-        id: "bio-lhs-lavender",
-        name: "Liquid Hand Soap - Lavender",
-        category: "BIOZYME",
-        sizes: [
-          { size: "Gallon", price: 240, stock: 48 },
-          { size: "500mL", price: 140, stock: 72 }
-        ]
-      },
-      {
-        id: "bio-2in1-bws",
-        name: "2-in-1 Body Wash and Shampoo",
-        category: "BIOZYME",
-        sizes: [
-          { size: "Gallon", price: 280, stock: 42 }
-        ]
-      },
-      {
-        id: "bio-hes",
-        name: "Herbal Essence Soap",
-        category: "BIOZYME",
-        sizes: [
-          { size: "100g", price: 55, stock: 105 }
-        ]
-      },
-      {
-        id: "bio-ass",
-        name: "Avocado Shea Soap",
-        category: "BIOZYME",
-        sizes: [
-          { size: "100g", price: 60, stock: 95 }
-        ]
-      }
+      // SMART HOME Products
+      { id: "sh-sp-std", name: "Smart Plug (Standard)", category: "SMART HOME", sizes: [{ size: "Single", price: 350, stock: 80 }, { size: "4-Pack", price: 1200, stock: 40 }] },
+      { id: "sh-led-1m", name: "LED Strip Light", category: "SMART HOME", sizes: [{ size: "1m", price: 250, stock: 100 }, { size: "3m", price: 650, stock: 60 }, { size: "5m", price: 980, stock: 40 }] },
+      { id: "sh-bulb", name: "Smart Bulb", category: "SMART HOME", sizes: [{ size: "Single", price: 320, stock: 90 }, { size: "3-Pack", price: 880, stock: 45 }] },
+      { id: "sh-motion", name: "Motion Sensor", category: "SMART HOME", sizes: [{ size: "Standard", price: 480, stock: 55 }, { size: "Pro", price: 750, stock: 30 }] },
+      { id: "sh-doorbell", name: "Smart Doorbell", category: "SMART HOME", sizes: [{ size: "Standard", price: 1850, stock: 25 }] },
+      { id: "sh-wifi-ext", name: "WiFi Extender", category: "SMART HOME", sizes: [{ size: "Standard", price: 1200, stock: 35 }, { size: "Pro (Mesh)", price: 2500, stock: 20 }] },
+      { id: "sh-cam-indoor", name: "Smart Indoor Camera", category: "SMART HOME", sizes: [{ size: "1080p", price: 1500, stock: 30 }, { size: "4K", price: 2800, stock: 15 }] },
+      { id: "sh-hub", name: "Smart Home Hub", category: "SMART HOME", sizes: [{ size: "Standard", price: 2200, stock: 20 }] },
+      // AUDIO Products
+      { id: "au-tws-std", name: "TWS Earbuds", category: "AUDIO", sizes: [{ size: "Standard", price: 890, stock: 60 }, { size: "Pro (ANC)", price: 1950, stock: 35 }] },
+      { id: "au-bt-spk", name: "Bluetooth Speaker", category: "AUDIO", sizes: [{ size: "Mini", price: 750, stock: 55 }, { size: "Standard", price: 1400, stock: 40 }, { size: "XL", price: 2800, stock: 20 }] },
+      { id: "au-hp-wired", name: "Wired Headphones", category: "AUDIO", sizes: [{ size: "Standard", price: 680, stock: 50 }, { size: "Noise Cancelling", price: 1800, stock: 25 }] },
+      { id: "au-gaming-hs", name: "Gaming Headset", category: "AUDIO", sizes: [{ size: "Wired", price: 1200, stock: 35 }, { size: "Wireless", price: 2200, stock: 20 }] },
+      { id: "au-soundbar", name: "Portable Soundbar", category: "AUDIO", sizes: [{ size: "2.0", price: 3200, stock: 15 }, { size: "2.1 (with Sub)", price: 5500, stock: 10 }] },
+      { id: "au-earphones", name: "Wired Earphones", category: "AUDIO", sizes: [{ size: "Standard", price: 350, stock: 80 }, { size: "Hi-Fi", price: 980, stock: 40 }] },
+      // PERIPHERALS Products
+      { id: "per-mouse-wl", name: "Wireless Mouse", category: "PERIPHERALS", sizes: [{ size: "Standard", price: 580, stock: 65 }, { size: "Ergonomic", price: 1200, stock: 35 }] },
+      { id: "per-kb-mech", name: "Mechanical Keyboard", category: "PERIPHERALS", sizes: [{ size: "TKL", price: 1800, stock: 30 }, { size: "Full Size", price: 2400, stock: 20 }] },
+      { id: "per-usb-hub", name: "USB Hub", category: "PERIPHERALS", sizes: [{ size: "4-Port USB-A", price: 450, stock: 70 }, { size: "7-Port USB-A", price: 780, stock: 45 }, { size: "USB-C Hub (7-in-1)", price: 1200, stock: 35 }] },
+      { id: "per-wl-charger", name: "Wireless Charger", category: "PERIPHERALS", sizes: [{ size: "Standard 10W", price: 520, stock: 60 }, { size: "Fast 15W", price: 850, stock: 40 }] },
+      { id: "per-laptop-stand", name: "Laptop Stand", category: "PERIPHERALS", sizes: [{ size: "Fixed", price: 680, stock: 45 }, { size: "Adjustable", price: 1100, stock: 30 }] },
+      { id: "per-webcam", name: "Webcam", category: "PERIPHERALS", sizes: [{ size: "1080p", price: 1200, stock: 35 }, { size: "4K", price: 2800, stock: 15 }] },
+      { id: "per-mousepad", name: "Mouse Pad", category: "PERIPHERALS", sizes: [{ size: "Medium (30x25cm)", price: 180, stock: 90 }, { size: "XL (90x40cm)", price: 480, stock: 50 }] }
     ];
     
     await kv.set("inventory_initialized", "true");
@@ -654,7 +330,7 @@ app.get("/make-server-63cffc09/requests", async (c) => {
   }
 });
 
-// Create a new sample request
+// Create a new purchase order
 app.post("/make-server-63cffc09/requests", async (c) => {
   try {
     const body = await c.req.json();
@@ -1165,13 +841,13 @@ async function sendOTPEmail(email: string, otp: string, name?: string): Promise<
     // Get domain from environment or use test domain
     const emailDomain = Deno.env.get('EMAIL_DOMAIN') || 'onboarding@resend.dev';
     const fromAddress = emailDomain.includes('@') 
-      ? `Wonderzyme <${emailDomain}>`
-      : `Wonderzyme <noreply@${emailDomain}>`;
+      ? `NexaBox <${emailDomain}>`
+      : `NexaBox <noreply@${emailDomain}>`;
 
     const emailBody = {
       from: fromAddress,
       to: email,
-      subject: 'Your Wonderzyme Verification Code',
+      subject: 'Your NexaBox Verification Code',
       html: `
         <!DOCTYPE html>
         <html>
@@ -1197,11 +873,11 @@ async function sendOTPEmail(email: string, otp: string, name?: string): Promise<
           <body>
             <div class="container">
               <div class="logo">
-                <p class="logo-text">🧬 Wonderzyme</p>
+                <p class="logo-text">⚡ NexaBox</p>
               </div>
               
               <h1>Hi ${name || 'there'}! 👋</h1>
-              <p>We received a login request for the Wonderzyme Inventory System. Use the verification code below to complete your authentication:</p>
+              <p>We received a login request for the NexaBox Electronics Distribution System. Use the verification code below to complete your authentication:</p>
               
               <div class="otp-box">
                 <p class="otp-code">${otp}</p>
@@ -1215,8 +891,8 @@ async function sendOTPEmail(email: string, otp: string, name?: string): Promise<
               <p>If you didn't request this code, please ignore this email. Your account security is important to us.</p>
               
               <div class="footer">
-                <p>© 2026 Wonderzyme. All rights reserved.</p>
-                <p>Inventory & Sample Management System</p>
+                <p>© 2026 NexaBox. All rights reserved.</p>
+                <p>Electronics Distribution System</p>
                 <p style="font-size: 11px; color: #666; margin-top: 8px;">Developed by Dale Catibog</p>
               </div>
             </div>
@@ -1255,7 +931,7 @@ async function sendOTPEmail(email: string, otp: string, name?: string): Promise<
         console.log('  2. Add DNS records (SPF, DKIM, DMARC)');
         console.log('  3. Wait 5-10 minutes for verification');
         console.log('  4. Update the code to use your domain:');
-        console.log('     from: "Wonderzyme <noreply@yourdomain.com>"');
+        console.log('     from: "NexaBox <noreply@yourdomain.com>"');
         console.log('');
         console.log('OR for testing, add each email at:');
         console.log('  https://resend.com/settings/emails');
@@ -1314,13 +990,13 @@ async function sendRequestNotificationEmail(request: any): Promise<boolean> {
     console.log(`API Key Prefix: ${resendApiKey.substring(0, 8)}...`);
     console.log(`API Key Format Valid: ${resendApiKey.startsWith('re_')}`);
     
-    const notificationEmail = 'wonderzymemarketing@infarmco.com';
+    const notificationEmail = 'admin@nexabox.tech';
     
     // Get domain from environment or use test domain
     const emailDomain = Deno.env.get('EMAIL_DOMAIN') || 'onboarding@resend.dev';
     const fromAddress = emailDomain.includes('@') 
-      ? `Wonderzyme Notifications <${emailDomain}>`
-      : `Wonderzyme Notifications <noreply@${emailDomain}>`;
+      ? `NexaBox Notifications <${emailDomain}>`
+      : `NexaBox Notifications <noreply@${emailDomain}>`;
 
     // Format timestamp
     const timestamp = new Date(request.timestamp);
@@ -1389,12 +1065,12 @@ async function sendRequestNotificationEmail(request: any): Promise<boolean> {
           <body>
             <div class="container">
               <div class="header">
-                <p class="logo-text">🧬 Wonderzyme</p>
+                <p class="logo-text">⚡ NexaBox</p>
                 <span class="badge">NEW SAMPLE REQUEST</span>
               </div>
               
               <h1>📦 New Sample Request Received</h1>
-              <p>A new sample request has been submitted to the Wonderzyme Inventory System.</p>
+              <p>A new purchase order has been submitted to the NexaBox Electronics Distribution System.</p>
               
               <div class="info-box">
                 <div class="info-row">
@@ -1457,8 +1133,8 @@ async function sendRequestNotificationEmail(request: any): Promise<boolean> {
               </p>
               
               <div class="footer">
-                <p>© 2026 Wonderzyme. All rights reserved.</p>
-                <p>Inventory & Sample Management System</p>
+                <p>© 2026 NexaBox. All rights reserved.</p>
+                <p>Electronics Distribution System</p>
                 <p style="font-size: 11px; color: #666; margin-top: 8px;">Developed by Dale Catibog</p>
               </div>
             </div>
@@ -1606,7 +1282,7 @@ app.post("/make-server-63cffc09/auth/admin/login", async (c) => {
     
     // TODO: Replace with your actual admin credentials
     // For security, these should be environment variables
-    const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') || 'wonderzymemarketing@infarmco.com';
+    const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') || 'admin@nexabox.tech';
     const ADMIN_PASSWORD = Deno.env.get('ADMIN_PASSWORD') || 'admin123';
     
     // Check for password override (from forgot password flow)
@@ -1707,7 +1383,7 @@ app.post("/make-server-63cffc09/auth/admin/forgot-password", async (c) => {
     }
     
     // Verify it's the admin email
-    const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') || 'wonderzymemarketing@infarmco.com';
+    const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL') || 'admin@nexabox.tech';
     
     if (email !== ADMIN_EMAIL) {
       return c.json({ error: "Invalid admin email" }, 401);

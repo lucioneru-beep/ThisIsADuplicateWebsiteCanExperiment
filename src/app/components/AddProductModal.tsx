@@ -18,6 +18,7 @@ interface AddProductModalProps {
   authToken: string;
   onProductAdded: () => void;
   existingCategories?: string[];
+  demoMode?: boolean;
 }
 
 export function AddProductModal({
@@ -26,10 +27,11 @@ export function AddProductModal({
   apiBase,
   authToken,
   onProductAdded,
-  existingCategories = []
+  existingCategories = [],
+  demoMode = false,
 }: AddProductModalProps) {
   const [productName, setProductName] = useState('');
-  const [category, setCategory] = useState<string>('NATUREZYME');
+  const [category, setCategory] = useState<string>('SMART HOME');
   const [customCategory, setCustomCategory] = useState('');
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [sizes, setSizes] = useState<ProductSize[]>([
@@ -38,7 +40,7 @@ export function AddProductModal({
   const [loading, setLoading] = useState(false);
 
   // Default categories + existing categories from products
-  const defaultCategories = ['NATUREZYME', 'PETZYME', 'BIOZYME'];
+  const defaultCategories = ['SMART HOME', 'AUDIO', 'PERIPHERALS'];
   const allCategories = [...new Set([...defaultCategories, ...existingCategories])];
 
   const finalCategory = isCustomCategory ? customCategory : category;
@@ -100,6 +102,7 @@ export function AddProductModal({
       }
     }
 
+    if (demoMode) { toast.info('Demo mode — adding products is disabled'); return; }
     setLoading(true);
     try {
       const response = await fetch(`${apiBase}/inventory/add-product`, {
@@ -129,7 +132,7 @@ export function AddProductModal({
 
       // Reset form
       setProductName('');
-      setCategory('NATUREZYME');
+      setCategory('SMART HOME');
       setCustomCategory('');
       setIsCustomCategory(false);
       setSizes([{ size: '', price: 0, stock: 0 }]);
@@ -147,12 +150,12 @@ export function AddProductModal({
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#2d2d2d] rounded-xl w-full max-w-3xl max-h-[90vh] overflow-hidden border border-gray-700 flex flex-col">
+      <div className="bg-[#141824] rounded-xl w-full max-w-3xl max-h-[90vh] overflow-hidden border border-[#1e2433] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
+        <div className="flex items-center justify-between p-6 border-b border-[#1e2433]">
           <div className="flex items-center gap-3">
-            <div className="bg-[#2d8659]/20 p-2 rounded-lg">
-              <Package className="w-6 h-6 text-[#2d8659]" />
+            <div className="bg-[#f97316]/20 p-2 rounded-lg">
+              <Package className="w-6 h-6 text-[#f97316]" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Add New Product</h2>
@@ -180,7 +183,7 @@ export function AddProductModal({
               placeholder="e.g., All Purpose Liquid Cleaner"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
-              className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+              className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
             />
           </div>
 
@@ -200,8 +203,8 @@ export function AddProductModal({
                     }}
                     className={`p-3 rounded-lg border-2 transition-all ${
                       !isCustomCategory && category === cat
-                        ? 'border-[#2d8659] bg-[#2d8659]/20 text-white'
-                        : 'border-gray-600 bg-[#1a1a1a] text-gray-400 hover:border-gray-500'
+                        ? 'border-[#f97316] bg-[#f97316]/20 text-white'
+                        : 'border-gray-600 bg-[#08090e] text-gray-400 hover:border-gray-500'
                     }`}
                   >
                     <span className="font-medium text-sm">{cat}</span>
@@ -214,8 +217,8 @@ export function AddProductModal({
                   onClick={() => setIsCustomCategory(!isCustomCategory)}
                   className={`px-4 py-2 rounded-lg border-2 transition-all text-sm ${
                     isCustomCategory
-                      ? 'border-[#2d8659] bg-[#2d8659]/20 text-white'
-                      : 'border-gray-600 bg-[#1a1a1a] text-gray-400 hover:border-gray-500'
+                      ? 'border-[#f97316] bg-[#f97316]/20 text-white'
+                      : 'border-gray-600 bg-[#08090e] text-gray-400 hover:border-gray-500'
                   }`}
                 >
                   {isCustomCategory ? '✓ Custom Category' : '+ Add New Category'}
@@ -226,7 +229,7 @@ export function AddProductModal({
                     placeholder="Enter new category name"
                     value={customCategory}
                     onChange={(e) => setCustomCategory(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500 flex-1"
+                    className="bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500 flex-1"
                   />
                 )}
               </div>
@@ -247,7 +250,7 @@ export function AddProductModal({
               </Label>
               <Button
                 onClick={handleAddSize}
-                className="bg-[#2d8659] hover:bg-[#238b4d] text-white text-sm px-3 py-1"
+                className="bg-[#f97316] hover:bg-[#ea6a09] text-white text-sm px-3 py-1"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Add Size
@@ -258,7 +261,7 @@ export function AddProductModal({
               {sizes.map((size, index) => (
                 <div
                   key={index}
-                  className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4"
+                  className="bg-[#08090e] border border-[#1e2433] rounded-lg p-4"
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -272,7 +275,7 @@ export function AddProductModal({
                           placeholder="e.g., Gallon"
                           value={size.size}
                           onChange={(e) => handleSizeChange(index, 'size', e.target.value)}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm"
                         />
                       </div>
                       <div>
@@ -297,7 +300,7 @@ export function AddProductModal({
                               }
                             }
                           }}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                       </div>
                       <div>
@@ -322,7 +325,7 @@ export function AddProductModal({
                               }
                             }
                           }}
-                          className="bg-[#2d2d2d] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="bg-[#141824] border-gray-600 text-white placeholder:text-gray-600 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                       </div>
                     </div>
@@ -349,7 +352,7 @@ export function AddProductModal({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-700 p-6 flex gap-3">
+        <div className="border-t border-[#1e2433] p-6 flex gap-3">
           <Button
             onClick={onClose}
             variant="outline"
@@ -360,7 +363,7 @@ export function AddProductModal({
           </Button>
           <Button
             onClick={handleSubmit}
-            className="flex-1 bg-[#2d8659] hover:bg-[#238b4d] text-white"
+            className="flex-1 bg-[#f97316] hover:bg-[#ea6a09] text-white"
             disabled={loading}
           >
             {loading ? (

@@ -17,9 +17,12 @@ import { toast } from 'sonner';
 import { Toaster } from './components/ui/sonner';
 import { Button } from './components/ui/button';
 import * as XLSX from 'xlsx';
-import logo from 'figma:asset/3aeb9913c81471bc07d44be8f9b378f03ef97e23.png';
+import { NexaBoxLogo } from './components/NexaBoxLogo';
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-63cffc09`;
+
+// Portfolio demo mode — submissions show a success UI but nothing is saved to the database
+const DEMO_MODE = true;
 
 type AppMode = 'landing' | 'user-view' | 'admin-view';
 
@@ -130,6 +133,11 @@ export default function App() {
   };
 
   const handleSubmit = async (submittedBy: string, drNumber: string, clientName: string, deliveryAddress: string, deliveryDate: string, notes?: string) => {
+    if (DEMO_MODE) {
+      toast.success('Request submitted! (Demo mode — nothing was saved)');
+      setCurrentRequest([]);
+      return;
+    }
     try {
       const response = await fetch(`${API_BASE}/requests`, {
         method: 'POST',
@@ -211,7 +219,7 @@ export default function App() {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sample Requests');
 
-      const filename = `Wonderzyme_Requests_${startDate}.xlsx`;
+      const filename = `NexaBox_Requests_${startDate}.xlsx`;
       XLSX.writeFile(workbook, filename);
 
       toast.success(`Exported ${data.length} record(s) for ${startDate}`);
@@ -222,6 +230,11 @@ export default function App() {
   };
 
   const handleUpdateStock = async (productId: string, size: string, newStock: number) => {
+    if (DEMO_MODE) {
+      // Update locally only — nothing persisted
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, sizes: p.sizes.map((s: any) => s.size === size ? { ...s, stock: newStock } : s) } : p));
+      return;
+    }
     try {
       const response = await fetch(`${API_BASE}/inventory/update-stock`, {
         method: 'POST',
@@ -245,6 +258,10 @@ export default function App() {
   };
 
   const handleUpdatePrice = async (productId: string, size: string, newPrice: number) => {
+    if (DEMO_MODE) {
+      setProducts(prev => prev.map(p => p.id === productId ? { ...p, sizes: p.sizes.map((s: any) => s.size === size ? { ...s, price: newPrice } : s) } : p));
+      return;
+    }
     try {
       const response = await fetch(`${API_BASE}/inventory/update-price`, {
         method: 'POST',
@@ -268,6 +285,10 @@ export default function App() {
   };
 
   const handleResetInventory = async () => {
+    if (DEMO_MODE) {
+      toast.info('Demo mode — inventory reset is disabled');
+      return;
+    }
     if (!confirm('⚠️ WARNING: This will reset all products to their default values and overwrite any custom products you added. Are you sure you want to continue?')) {
       return;
     }
@@ -339,6 +360,7 @@ export default function App() {
           }}
           apiBase={API_BASE}
           authToken={publicAnonKey}
+          demoMode={DEMO_MODE}
         />
       </>
     );
@@ -347,9 +369,9 @@ export default function App() {
   // Admin View (Full Dashboard)
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center">
+      <div className="min-h-screen bg-[#08090e] flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d8659] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f97316] mx-auto"></div>
           <p className="text-gray-400">Loading inventory data...</p>
         </div>
       </div>
@@ -358,14 +380,14 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center">
-        <div className="bg-[#2d2d2d] rounded-lg p-8 max-w-md text-center space-y-4">
+      <div className="min-h-screen bg-[#08090e] flex items-center justify-center">
+        <div className="bg-[#141824] rounded-lg p-8 max-w-md text-center space-y-4">
           <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
           <h2 className="text-xl font-bold text-white">Error Loading Data</h2>
           <p className="text-gray-400">{error}</p>
           <button
             onClick={fetchInventory}
-            className="bg-[#2d8659] hover:bg-[#238b4d] text-white px-6 py-2 rounded-md font-semibold transition-colors"
+            className="bg-[#f97316] hover:bg-[#ea6a09] text-white px-6 py-2 rounded-md font-semibold transition-colors"
           >
             Retry
           </button>
@@ -375,21 +397,25 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
+    <div className="min-h-screen bg-[#08090e] text-white">
       <Toaster position="top-right" />
+      {DEMO_MODE && (
+        <div className="bg-violet-600 text-white text-center text-sm font-medium py-2 px-4" style={{ fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.05em' }}>
+          PORTFOLIO DEMO — reads are live, all writes are blocked
+        </div>
+      )}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-7xl">
       {/* Header */}
       <header className="mb-6 sm:mb-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="Wonderzyme Logo" className="w-8 h-8 sm:w-10 sm:h-10 text-[#2d8659]" />
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">Wonderzyme</h1>
+            <NexaBoxLogo size="md" />
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
             <Button
               onClick={() => setIsStockModalOpen(true)}
-              className="bg-[#2d8659] hover:bg-[#238b4d] text-white flex-1 sm:flex-initial"
+              className="bg-[#f97316] hover:bg-[#ea6a09] text-white flex-1 sm:flex-initial"
             >
               <Settings className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Manage Stock</span>
@@ -397,7 +423,7 @@ export default function App() {
             </Button>
             <Button
               onClick={() => setIsDatabaseModalOpen(true)}
-              className="bg-[#2d8659] hover:bg-[#3ba76a] text-white flex-1 sm:flex-initial relative transition-all duration-200"
+              className="bg-[#f97316] hover:bg-[#fb923c] text-white flex-1 sm:flex-initial relative transition-all duration-200"
             >
               <Database className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Manage Database</span>
@@ -415,13 +441,13 @@ export default function App() {
                 setCurrentRequest([]);
               }}
               variant="outline"
-              className="border-[#2d8659] text-[#2d8659] hover:bg-[#2d8659]/20 flex-1 sm:flex-initial font-semibold"
+              className="border-[#f97316] text-[#f97316] hover:bg-[#f97316]/20 flex-1 sm:flex-initial font-semibold"
             >
               Logout
             </Button>
           </div>
         </div>
-        <p className="text-gray-400 text-sm sm:text-base lg:text-lg">Inventory & Sample Management System - Admin Dashboard</p>
+        <p className="text-[#475569] text-xs tracking-[0.2em] uppercase mt-1" style={{ fontFamily: "'JetBrains Mono', monospace" }}>Admin Dashboard · Electronics Distribution</p>
       </header>
 
       {/* Stock Management Modal */}
@@ -450,9 +476,10 @@ export default function App() {
         authToken={publicAnonKey}
         onDataChange={() => {
           fetchInventory();
-          fetchRequestCount(); // Also refresh request count when data changes
+          fetchRequestCount();
         }}
         products={products}
+        demoMode={DEMO_MODE}
       />
 
       {/* Add Product Modal */}
@@ -463,6 +490,7 @@ export default function App() {
         authToken={publicAnonKey}
         onProductAdded={fetchInventory}
         existingCategories={[...new Set(products.map(p => p.category))]}
+        demoMode={DEMO_MODE}
       />
 
       {/* Product Manager Modal */}
@@ -473,6 +501,7 @@ export default function App() {
         authToken={publicAnonKey}
         products={products}
         onProductsChanged={fetchInventory}
+        demoMode={DEMO_MODE}
       />
 
       {/* Main Dashboard */}

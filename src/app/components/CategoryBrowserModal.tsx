@@ -31,11 +31,11 @@ export function CategoryBrowserModal({
 
   const getCategoryColor = () => {
     switch (category) {
-      case 'NATUREZYME':
+      case 'SMART HOME':
         return { bg: 'bg-green-500/20', border: 'border-green-500/50', text: 'text-green-400' };
-      case 'PETZYME':
+      case 'AUDIO':
         return { bg: 'bg-blue-500/20', border: 'border-blue-500/50', text: 'text-blue-400' };
-      case 'BIOZYME':
+      case 'PERIPHERALS':
         return { bg: 'bg-purple-500/20', border: 'border-purple-500/50', text: 'text-purple-400' };
       default:
         return { bg: 'bg-gray-500/20', border: 'border-gray-500/50', text: 'text-gray-400' };
@@ -86,9 +86,9 @@ export function CategoryBrowserModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-[#2d2d2d] rounded-lg w-full max-w-6xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+      <div className="bg-[#141824] rounded-lg w-full max-w-6xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className={`p-4 sm:p-6 border-b border-gray-700 ${colors.bg} ${colors.border} border-t-4`}>
+        <div className={`p-4 sm:p-6 border-b border-[#1e2433] ${colors.bg} ${colors.border} border-t-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Package className={`w-6 h-6 sm:w-8 sm:h-8 ${colors.text}`} />
@@ -111,7 +111,7 @@ export function CategoryBrowserModal({
         {/* Main Content */}
         <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
           {/* Product List - Left Side */}
-          <div className="lg:w-1/2 border-b lg:border-b-0 lg:border-r border-gray-700 overflow-y-auto">
+          <div className="lg:w-1/2 border-b lg:border-b-0 lg:border-r border-[#1e2433] overflow-y-auto">
             <div className="p-4 sm:p-6">
               <h3 className="text-white font-semibold mb-4 text-lg">Select Product</h3>
               <div className="space-y-2">
@@ -122,7 +122,7 @@ export function CategoryBrowserModal({
                     className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                       selectedProduct?.id === product.id
                         ? `${colors.border} ${colors.bg}`
-                        : 'border-gray-700 bg-[#1a1a1a] hover:border-gray-600'
+                        : 'border-[#1e2433] bg-[#08090e] hover:border-gray-600'
                     }`}
                   >
                     <div className="flex items-start justify-between">
@@ -132,7 +132,7 @@ export function CategoryBrowserModal({
                         </h4>
                         <div className="flex flex-wrap gap-2 text-xs text-gray-400">
                           {product.sizes.map((size) => (
-                            <span key={size.size} className="bg-[#2d2d2d] px-2 py-1 rounded">
+                            <span key={size.size} className="bg-[#141824] px-2 py-1 rounded">
                               {size.size}
                             </span>
                           ))}
@@ -149,7 +149,7 @@ export function CategoryBrowserModal({
           </div>
 
           {/* Product Details - Right Side */}
-          <div className="lg:w-1/2 overflow-y-auto bg-[#1a1a1a]">
+          <div className="lg:w-1/2 overflow-y-auto bg-[#08090e]">
             {selectedProduct ? (
               <div className="p-4 sm:p-6 space-y-4">
                 <div>
@@ -161,7 +161,7 @@ export function CategoryBrowserModal({
                   </span>
                 </div>
 
-                <div className="border-t border-gray-700 pt-4 space-y-4">
+                <div className="border-t border-[#1e2433] pt-4 space-y-4">
                   <div>
                     <Label className="text-gray-300 text-sm mb-2 block">
                       Select Packaging Size
@@ -177,7 +177,7 @@ export function CategoryBrowserModal({
                           className={`p-3 rounded-lg border-2 transition-all text-left ${
                             selectedSize?.size === size.size
                               ? `${colors.border} ${colors.bg}`
-                              : 'border-gray-700 bg-[#2d2d2d] hover:border-gray-600'
+                              : 'border-[#1e2433] bg-[#141824] hover:border-gray-600'
                           }`}
                         >
                           <div className="text-white font-semibold text-sm">{size.size}</div>
@@ -224,7 +224,7 @@ export function CategoryBrowserModal({
                             variant="outline"
                             onClick={() => setQuantity(Math.max(1, (quantity as number) - 1))}
                             disabled={quantity === '' || quantity <= 1}
-                            className="border-gray-600 hover:bg-[#2d2d2d]"
+                            className="border-gray-600 hover:bg-[#141824]"
                           >
                             <Minus className="w-4 h-4" />
                           </Button>
@@ -245,21 +245,21 @@ export function CategoryBrowserModal({
                                 }
                               }
                             }}
-                            className="bg-[#2d2d2d] border-gray-600 text-white text-center flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            className="bg-[#141824] border-gray-600 text-white text-center flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           />
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => setQuantity(Math.min(selectedSize.stock, (quantity as number) + 1))}
                             disabled={quantity === '' || quantity >= selectedSize.stock}
-                            className="border-gray-600 hover:bg-[#2d2d2d]"
+                            className="border-gray-600 hover:bg-[#141824]"
                           >
                             <Plus className="w-4 h-4" />
                           </Button>
                         </div>
                       </div>
 
-                      <div className="bg-[#2d2d2d] rounded-lg p-4 border border-gray-700">
+                      <div className="bg-[#141824] rounded-lg p-4 border border-[#1e2433]">
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-gray-400 text-sm">Total Value:</span>
                           <span className={`text-2xl font-bold ${colors.text}`}>
@@ -270,7 +270,7 @@ export function CategoryBrowserModal({
 
                       <Button
                         onClick={handleAddToRequest}
-                        className="w-full bg-[#2d8659] hover:bg-[#238b4d] text-white font-semibold py-3"
+                        className="w-full bg-[#f97316] hover:bg-[#ea6a09] text-white font-semibold py-3"
                       >
                         <Plus className="w-5 h-5 mr-2" />
                         Add to Request

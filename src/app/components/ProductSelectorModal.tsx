@@ -151,11 +151,11 @@ export function ProductSelectorModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-2 sm:p-4">
-      <div className="bg-[#2d2d2d] rounded-lg w-full h-full sm:h-[95vh] max-w-7xl flex flex-col">
+      <div className="bg-[#141824] rounded-lg w-full h-full sm:h-[95vh] max-w-7xl flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#1e2433]">
           <div className="flex items-center gap-3">
-            <Package className="w-6 h-6 text-[#2d8659]" />
+            <Package className="w-6 h-6 text-[#f97316]" />
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white">Select Product</h2>
               <p className="text-sm text-gray-400">Choose a product and configure quantity</p>
@@ -184,7 +184,7 @@ export function ProductSelectorModal({
                   placeholder="Search by name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-[#1a1a1a] border-gray-600 text-white"
+                  className="pl-10 bg-[#08090e] border-gray-600 text-white"
                 />
               </div>
             </div>
@@ -193,7 +193,7 @@ export function ProductSelectorModal({
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#2d8659]"
+                className="w-full px-3 py-2 bg-[#08090e] border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#f97316]"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
@@ -216,8 +216,8 @@ export function ProductSelectorModal({
                   onClick={() => handleProductSelect(product)}
                   className={`text-left p-3 rounded-lg border transition-all ${
                     selectedProduct?.id === product.id
-                      ? 'bg-[#2d8659]/20 border-[#2d8659] ring-2 ring-[#2d8659]'
-                      : 'bg-[#1a1a1a] border-gray-700 hover:border-gray-600'
+                      ? 'bg-[#f97316]/20 border-[#f97316] ring-2 ring-[#f97316]'
+                      : 'bg-[#08090e] border-[#1e2433] hover:border-gray-600'
                   }`}
                 >
                   <div className="font-medium text-white">{product.name}</div>
@@ -237,8 +237,8 @@ export function ProductSelectorModal({
 
           {/* Size and Quantity Selection */}
           {selectedProduct && (
-            <div className="border-t border-gray-700 pt-4 space-y-4">
-              <div className="bg-[#1a1a1a] p-4 rounded-lg">
+            <div className="border-t border-[#1e2433] pt-4 space-y-4">
+              <div className="bg-[#08090e] p-4 rounded-lg">
                 <div className="text-white font-semibold mb-1">{selectedProduct.name}</div>
                 <div className="text-gray-400 text-sm">{selectedProduct.category}</div>
               </div>
@@ -249,7 +249,7 @@ export function ProductSelectorModal({
                   <select
                     value={selectedSize}
                     onChange={(e) => setSelectedSize(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#2d8659]"
+                    className="w-full px-3 py-2 bg-[#08090e] border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   >
                     <option value="">Choose a size...</option>
                     {selectedProduct.sizes.map(sizeInfo => (
@@ -281,16 +281,16 @@ export function ProductSelectorModal({
                         }
                       }
                     }}
-                    className="bg-[#1a1a1a] border-gray-600 text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="bg-[#08090e] border-gray-600 text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
               </div>
 
               {selectedSize && (
-                <div className="bg-[#2d8659]/20 border border-[#2d8659] rounded-lg p-3">
+                <div className="bg-[#f97316]/20 border border-[#f97316] rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Total:</span>
-                    <span className="text-[#2d8659] text-lg font-bold">
+                    <span className="text-[#f97316] text-lg font-bold">
                       ₱
                       {(
                         (selectedProduct.sizes.find(s => s.size === selectedSize)?.price || 0) *
@@ -305,17 +305,17 @@ export function ProductSelectorModal({
 
           {/* Cart */}
           {cart.length > 0 && (
-            <div className="border-t border-gray-700 pt-4 space-y-3">
-              <div className="flex items-center justify-between bg-[#1a1a1a] p-3 rounded-lg">
+            <div className="border-t border-[#1e2433] pt-4 space-y-3">
+              <div className="flex items-center justify-between bg-[#08090e] p-3 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-[#2d8659]" />
+                  <ShoppingCart className="w-5 h-5 text-[#f97316]" />
                   <span className="text-white font-semibold">Cart ({cart.length} items)</span>
                 </div>
               </div>
 
               <div className="space-y-2 max-h-[250px] overflow-y-auto">
                 {cart.map((item, index) => (
-                  <div key={index} className="bg-[#1a1a1a] p-3 rounded-lg flex flex-wrap sm:flex-nowrap items-center gap-3">
+                  <div key={index} className="bg-[#08090e] p-3 rounded-lg flex flex-wrap sm:flex-nowrap items-center gap-3">
                     <div className="flex-1 min-w-[150px]">
                       <div className="text-white font-medium text-sm">{item.productName}</div>
                       <div className="text-gray-400 text-xs">{item.category} • {item.size}</div>
@@ -340,7 +340,7 @@ export function ProductSelectorModal({
                         <Plus className="w-3 h-3" />
                       </Button>
                     </div>
-                    <div className="text-[#2d8659] font-semibold text-sm min-w-[80px] text-right">
+                    <div className="text-[#f97316] font-semibold text-sm min-w-[80px] text-right">
                       ₱{item.total.toFixed(2)}
                     </div>
                     <Button
@@ -355,10 +355,10 @@ export function ProductSelectorModal({
                 ))}
               </div>
 
-              <div className="bg-[#2d8659]/20 border border-[#2d8659] rounded-lg p-3">
+              <div className="bg-[#f97316]/20 border border-[#f97316] rounded-lg p-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300 font-medium">Cart Total:</span>
-                  <span className="text-[#2d8659] text-xl font-bold">
+                  <span className="text-[#f97316] text-xl font-bold">
                     ₱{cart.reduce((sum, item) => sum + item.total, 0).toFixed(2)}
                   </span>
                 </div>
@@ -368,7 +368,7 @@ export function ProductSelectorModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-6 border-t border-gray-700 flex justify-end gap-2">
+        <div className="p-4 sm:p-6 border-t border-[#1e2433] flex justify-end gap-2">
           <Button
             onClick={handleClose}
             variant="outline"
@@ -379,14 +379,14 @@ export function ProductSelectorModal({
           <Button
             onClick={addToCart}
             disabled={!selectedProduct || !selectedSize}
-            className="bg-[#2d8659] hover:bg-[#238b4d] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#f97316] hover:bg-[#ea6a09] text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add to Cart
           </Button>
           <Button
             onClick={handleDone}
             disabled={cart.length === 0}
-            className="bg-[#2d8659] hover:bg-[#238b4d] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#f97316] hover:bg-[#ea6a09] text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add to Request
           </Button>

@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { Button } from './ui/button';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import logo from 'figma:asset/3aeb9913c81471bc07d44be8f9b378f03ef97e23.png';
+import { NexaBoxLogo } from './NexaBoxLogo';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 import * as XLSX from 'xlsx';
 
@@ -17,9 +17,10 @@ interface UserFormViewProps {
   onLogout: () => void;
   apiBase: string;
   authToken: string;
+  demoMode?: boolean;
 }
 
-export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken }: UserFormViewProps) {
+export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken, demoMode = false }: UserFormViewProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentRequest, setCurrentRequest] = useState<RequestItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +83,7 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
     const timestamp = new Date();
 
     const submission = {
-      drNumber: '', // Empty - admins will add this later
+      drNumber: '',
       submittedBy,
       clientName,
       deliveryAddress,
@@ -92,8 +93,24 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
       timestamp: timestamp.toISOString(),
     };
 
+    if (demoMode) {
+      // Simulate success without hitting the backend
+      const updatedProducts = products.map((product) => {
+        const requestItem = currentRequest.find((item) => item.productName === product.name);
+        if (requestItem) {
+          return { ...product, stock: Math.max(0, product.stock - requestItem.quantity) };
+        }
+        return product;
+      });
+      setProducts(updatedProducts);
+      setLastSubmittedRequest(submission);
+      setCurrentRequest([]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast.success('Order submitted! (Demo mode — nothing was saved)');
+      return;
+    }
+
     try {
-      // Submit to backend
       const response = await fetch(
         `https://${projectId}.supabase.co/functions/v1/make-server-63cffc09/submit-request`,
         {
@@ -111,14 +128,10 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
         throw new Error(`Failed to submit request: ${errorText}`);
       }
 
-      // Update stock locally
       const updatedProducts = products.map((product) => {
         const requestItem = currentRequest.find((item) => item.productName === product.name);
         if (requestItem) {
-          return {
-            ...product,
-            stock: Math.max(0, product.stock - requestItem.quantity),
-          };
+          return { ...product, stock: Math.max(0, product.stock - requestItem.quantity) };
         }
         return product;
       });
@@ -126,10 +139,7 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
       setProducts(updatedProducts);
       setLastSubmittedRequest(submission);
       setCurrentRequest([]);
-
-      // Scroll to top to show success banner
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
       toast.success('Request submitted successfully!');
     } catch (error) {
       console.error('Error submitting request:', error);
@@ -246,10 +256,10 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
     doc.setTextColor(100, 100, 100);
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text('© 2026 Wonderzyme. All rights reserved.', 105, 285, { align: 'center' });
+    doc.text('© 2026 NexaBox. All rights reserved.', 105, 285, { align: 'center' });
     doc.text('Developed by Dale Catibog', 105, 290, { align: 'center' });
 
-    const filename = `Wonderzyme_Request_${lastSubmittedRequest.clientName.replace(/\s+/g, '_')}_${timestamp.toISOString().split('T')[0]}.pdf`;
+    const filename = `NexaBox_Request_${lastSubmittedRequest.clientName.replace(/\s+/g, '_')}_${timestamp.toISOString().split('T')[0]}.pdf`;
     doc.save(filename);
 
     toast.success('PDF downloaded successfully!');
@@ -285,20 +295,26 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
     const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Request');
 
-    const filename = `Wonderzyme_Request_${lastSubmittedRequest.clientName.replace(/\s+/g, '_')}_${timestamp.toISOString().split('T')[0]}.xlsx`;
+    const filename = `NexaBox_Request_${lastSubmittedRequest.clientName.replace(/\s+/g, '_')}_${timestamp.toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(workbook, filename);
 
     toast.success('Excel file downloaded successfully!');
   };
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a]">
+    <div className="min-h-screen bg-[#08090e]">
+      {/* Demo Mode Banner */}
+      {demoMode && (
+        <div className="bg-violet-600 text-white text-center text-sm font-medium py-2 px-4 sticky top-0 z-20" style={{ fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.05em' }}>
+          PORTFOLIO DEMO — browsing is live, submissions are not saved
+        </div>
+      )}
       {/* Header */}
-      <header className="bg-[#2d2d2d] border-b border-gray-700 sticky top-0 z-10">
+      <header className="bg-[#141824] border-b border-[#1e2433] sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img src={logo} alt="Wonderzyme" className="h-10 sm:h-12" />
+              <NexaBoxLogo size="sm" />
               <div>
                 <h1 className="text-xl sm:text-2xl font-bold text-white">
                   Sample Request Form
@@ -324,7 +340,7 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Success Banner with Download */}
         {lastSubmittedRequest && (
-          <div className="mb-6 bg-gradient-to-r from-[#2d8659] to-[#238b4d] rounded-lg p-6 border border-[#2d8659] shadow-lg">
+          <div className="mb-6 bg-gradient-to-r from-[#f97316] to-[#ea6a09] rounded-lg p-6 border border-[#f97316] shadow-lg">
             <div className="flex items-start gap-4">
               <div className="bg-white/20 p-3 rounded-full">
                 <CheckCircle className="w-8 h-8 text-white" />
@@ -343,7 +359,7 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
                 <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={handleDownloadPDFRequest}
-                    className="bg-white text-[#2d8659] hover:bg-gray-100 font-semibold"
+                    className="bg-white text-[#f97316] hover:bg-gray-100 font-semibold"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download PDF
@@ -362,15 +378,15 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d8659]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f97316]"></div>
           </div>
         ) : (
           <div className="space-y-6">
             {/* Step 1: Search & Add Products */}
-            <div className="bg-[#2d2d2d] rounded-lg border border-gray-700">
-              <div className="bg-gradient-to-r from-[#2d8659]/20 to-[#238b4d]/20 border-b border-gray-700 p-6">
+            <div className="bg-[#141824] rounded-lg border border-[#1e2433]">
+              <div className="bg-gradient-to-r from-[#f97316]/20 to-[#ea6a09]/20 border-b border-[#1e2433] p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="bg-[#2d8659] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
+                  <div className="bg-[#f97316] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
                     1
                   </div>
                   <h2 className="text-2xl font-bold text-white">Search & Add Products</h2>
@@ -385,10 +401,10 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
             </div>
 
             {/* Step 2: Review Your Request */}
-            <div className="bg-[#2d2d2d] rounded-lg border border-gray-700">
-              <div className="bg-gradient-to-r from-[#2d8659]/20 to-[#238b4d]/20 border-b border-gray-700 p-6">
+            <div className="bg-[#141824] rounded-lg border border-[#1e2433]">
+              <div className="bg-gradient-to-r from-[#f97316]/20 to-[#ea6a09]/20 border-b border-[#1e2433] p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="bg-[#2d8659] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
+                  <div className="bg-[#f97316] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg">
                     2
                   </div>
                   <h2 className="text-2xl font-bold text-white">Review Your Request</h2>
@@ -409,7 +425,7 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
             </div>
 
             {/* Help Section */}
-            <div className="bg-[#2d2d2d]/50 border border-gray-700 rounded-lg p-6">
+            <div className="bg-[#141824]/50 border border-[#1e2433] rounded-lg p-6">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <span className="text-2xl">💡</span> Quick Guide
               </h3>
@@ -449,10 +465,10 @@ export function UserFormView({ userName, userEmail, onLogout, apiBase, authToken
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#2d2d2d] border-t border-gray-700 mt-12">
+      <footer className="bg-[#141824] border-t border-[#1e2433] mt-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-gray-500 text-sm text-center">
-            © 2026 Wonderzyme. All rights reserved.
+            © 2026 NexaBox. All rights reserved.
           </p>
           <p className="text-gray-600 text-xs text-center mt-1">
             Developed by Dale Catibog

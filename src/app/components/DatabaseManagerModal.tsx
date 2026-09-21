@@ -38,6 +38,7 @@ interface DatabaseManagerModalProps {
   authToken: string;
   onDataChange: () => void;
   products: Product[];
+  demoMode?: boolean;
 }
 
 type ViewTab = 'browse' | 'add';
@@ -49,6 +50,7 @@ export function DatabaseManagerModal({
   authToken,
   onDataChange,
   products,
+  demoMode = false,
 }: DatabaseManagerModalProps) {
   const [requests, setRequests] = useState<RequestRecord[]>([]);
   const [filteredRequests, setFilteredRequests] = useState<RequestRecord[]>([]);
@@ -157,6 +159,7 @@ export function DatabaseManagerModal({
   };
 
   const handleSaveEdit = async (requestId: string) => {
+    if (demoMode) { toast.success('Demo mode — changes not saved'); setEditingId(null); setEditForm({}); return; }
     try {
       const response = await fetch(`${apiBase}/requests/update`, {
         method: 'PUT',
@@ -191,6 +194,7 @@ export function DatabaseManagerModal({
   };
 
   const handleDelete = async (requestId: string, drNumber: string) => {
+    if (demoMode) { toast.info('Demo mode — deletion disabled'); return; }
     if (!confirm(`Are you sure you want to delete request DR# ${drNumber}?`)) {
       return;
     }
@@ -219,6 +223,7 @@ export function DatabaseManagerModal({
   };
 
   const handleBulkDelete = async () => {
+    if (demoMode) { toast.info('Demo mode — deletion disabled'); return; }
     if (!confirm(`Delete ${selectedIds.size} selected requests? This cannot be undone.`)) {
       return;
     }
@@ -271,6 +276,7 @@ export function DatabaseManagerModal({
   };
 
   const handleAddRequest = async () => {
+    if (demoMode) { toast.info('Demo mode — adding records is disabled'); return; }
     if (!newRequestForm.submittedBy || !newRequestForm.drNumber || newRequestForm.items.length === 0) {
       toast.error('Please fill in all required fields and add at least one item');
       return;
@@ -498,7 +504,7 @@ export function DatabaseManagerModal({
 
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Requests');
-    XLSX.writeFile(workbook, 'wonderzyme_requests.xlsx');
+    XLSX.writeFile(workbook, 'nexabox_requests.xlsx');
     toast.success('Excel file downloaded successfully');
   };
 
@@ -507,7 +513,7 @@ export function DatabaseManagerModal({
     
     // Title
     doc.setFontSize(18);
-    doc.text('Wonderzyme Sample Requests', 14, 15);
+    doc.text('NexaBox Purchase Orders', 14, 15);
     
     // Summary info
     doc.setFontSize(11);
@@ -650,11 +656,12 @@ export function DatabaseManagerModal({
       },
     });
 
-    doc.save('wonderzyme_requests.pdf');
+    doc.save('nexabox_requests.pdf');
     toast.success('PDF file downloaded successfully');
   };
 
   const handleDeleteAll = async () => {
+    if (demoMode) { toast.info('Demo mode — deletion disabled'); return; }
     const confirmation = window.prompt(
       `⚠️ WARNING: This will permanently delete ALL ${requests.length} requests from the database!\n\n` +
       'This action CANNOT be undone!\n\n' +
@@ -720,25 +727,25 @@ export function DatabaseManagerModal({
     ? 'text-red-400' 
     : storagePercentage > 50 
     ? 'text-yellow-400' 
-    : 'text-[#2d8659]';
+    : 'text-[#f97316]';
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-[#2d2d2d] rounded-lg w-full max-w-7xl h-[95vh] flex flex-col shadow-2xl">
+      <div className="bg-[#141824] rounded-lg w-full max-w-7xl h-[95vh] flex flex-col shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-700/50">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#1e2433]/50">
           <div className="flex items-center gap-3">
-            <Database className="w-6 h-6 text-[#2d8659]" />
+            <Database className="w-6 h-6 text-[#f97316]" />
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white">Database Manager</h2>
-              <p className="text-xs sm:text-sm text-gray-400">Manage all sample requests</p>
+              <p className="text-xs sm:text-sm text-gray-400">Manage all purchase orders</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {/* Storage Indicator */}
-            <div className="hidden md:flex items-center gap-2 bg-[#1a1a1a] px-3 py-2 rounded-lg border border-gray-700/50">
+            <div className="hidden md:flex items-center gap-2 bg-[#08090e] px-3 py-2 rounded-lg border border-[#1e2433]/50">
               <HardDrive className={`w-4 h-4 ${storageColor}`} />
               <div className="text-xs">
                 <div className="text-gray-400">Storage</div>
@@ -759,12 +766,12 @@ export function DatabaseManagerModal({
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-700/50 px-4 sm:px-6">
+        <div className="flex border-b border-[#1e2433]/50 px-4 sm:px-6">
           <button
             onClick={() => setActiveTab('browse')}
             className={`px-4 sm:px-6 py-3 flex items-center gap-2 font-medium transition-all border-b-2 ${
               activeTab === 'browse'
-                ? 'text-[#2d8659] border-[#2d8659]'
+                ? 'text-[#f97316] border-[#f97316]'
                 : 'text-gray-400 border-transparent hover:text-gray-300'
             }`}
           >
@@ -777,7 +784,7 @@ export function DatabaseManagerModal({
             onClick={() => setActiveTab('add')}
             className={`px-4 sm:px-6 py-3 flex items-center gap-2 font-medium transition-all border-b-2 ${
               activeTab === 'add'
-                ? 'text-[#2d8659] border-[#2d8659]'
+                ? 'text-[#f97316] border-[#f97316]'
                 : 'text-gray-400 border-transparent hover:text-gray-300'
             }`}
           >
@@ -792,7 +799,7 @@ export function DatabaseManagerModal({
           {activeTab === 'browse' ? (
             <>
               {/* Browse Tab - Filters */}
-              <div className="p-4 sm:p-6 border-b border-gray-700/50 bg-[#1a1a1a]/30">
+              <div className="p-4 sm:p-6 border-b border-[#1e2433]/50 bg-[#08090e]/30">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -801,14 +808,14 @@ export function DatabaseManagerModal({
                       placeholder="Search by name, DR#, client, or product..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 bg-[#1a1a1a] border-gray-600 text-white placeholder:text-gray-500"
+                      className="pl-10 bg-[#08090e] border-gray-600 text-white placeholder:text-gray-500"
                     />
                   </div>
                   <Input
                     type="date"
                     value={dateFilter}
                     onChange={(e) => setDateFilter(e.target.value)}
-                    className="bg-[#1a1a1a] border-gray-600 text-white"
+                    className="bg-[#08090e] border-gray-600 text-white"
                   />
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -817,7 +824,7 @@ export function DatabaseManagerModal({
                       Showing <span className="text-white font-medium">{filteredRequests.length}</span> of {requests.length}
                     </span>
                     {selectedIds.size > 0 && (
-                      <span className="text-[#2d8659] font-semibold">
+                      <span className="text-[#f97316] font-semibold">
                         ({selectedIds.size} selected)
                       </span>
                     )}
@@ -885,7 +892,7 @@ export function DatabaseManagerModal({
               <div className="flex-1 overflow-y-auto p-4 sm:p-6">
                 {loading ? (
                   <div className="flex items-center justify-center py-12">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2d8659]"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#f97316]"></div>
                   </div>
                 ) : filteredRequests.length === 0 ? (
                   <div className="text-center py-12">
@@ -899,7 +906,7 @@ export function DatabaseManagerModal({
                     {filteredRequests.map((request) => (
                       <div
                         key={request.id}
-                        className="bg-[#1a1a1a] rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all"
+                        className="bg-[#08090e] rounded-lg border border-[#1e2433]/50 hover:border-gray-600 transition-all"
                       >
                         {editingId === request.id ? (
                           // Edit Mode
@@ -910,7 +917,7 @@ export function DatabaseManagerModal({
                                 <Input
                                   value={editForm.submittedBy || ''}
                                   onChange={(e) => setEditForm({ ...editForm, submittedBy: e.target.value })}
-                                  className="bg-[#2d2d2d] border-gray-600 text-white text-sm"
+                                  className="bg-[#141824] border-gray-600 text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -918,7 +925,7 @@ export function DatabaseManagerModal({
                                 <Input
                                   value={editForm.drNumber || ''}
                                   onChange={(e) => setEditForm({ ...editForm, drNumber: e.target.value })}
-                                  className="bg-[#2d2d2d] border-gray-600 text-white text-sm"
+                                  className="bg-[#141824] border-gray-600 text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -926,7 +933,7 @@ export function DatabaseManagerModal({
                                 <Input
                                   value={editForm.clientName || ''}
                                   onChange={(e) => setEditForm({ ...editForm, clientName: e.target.value })}
-                                  className="bg-[#2d2d2d] border-gray-600 text-white text-sm"
+                                  className="bg-[#141824] border-gray-600 text-white text-sm"
                                 />
                               </div>
                               <div className="sm:col-span-2">
@@ -935,7 +942,7 @@ export function DatabaseManagerModal({
                                   value={editForm.deliveryAddress || ''}
                                   onChange={(e) => setEditForm({ ...editForm, deliveryAddress: e.target.value })}
                                   placeholder="Enter delivery address..."
-                                  className="bg-[#2d2d2d] border-gray-600 text-white text-sm"
+                                  className="bg-[#141824] border-gray-600 text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -944,7 +951,7 @@ export function DatabaseManagerModal({
                                   type="date"
                                   value={editForm.deliveryDate || ''}
                                   onChange={(e) => setEditForm({ ...editForm, deliveryDate: e.target.value })}
-                                  className="bg-[#2d2d2d] border-gray-600 text-white text-sm"
+                                  className="bg-[#141824] border-gray-600 text-white text-sm"
                                 />
                               </div>
                             </div>
@@ -955,7 +962,7 @@ export function DatabaseManagerModal({
                                 value={editForm.notes || ''}
                                 onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
                                 placeholder="Add special instructions or comments..."
-                                className="bg-[#2d2d2d] border-gray-600 text-white text-sm min-h-[80px] resize-y"
+                                className="bg-[#141824] border-gray-600 text-white text-sm min-h-[80px] resize-y"
                               />
                             </div>
 
@@ -968,7 +975,7 @@ export function DatabaseManagerModal({
                                     setShowProductSelector(true);
                                   }}
                                   size="sm"
-                                  className="bg-[#2d8659] hover:bg-[#238b4d] text-white h-7 text-xs"
+                                  className="bg-[#f97316] hover:bg-[#ea6a09] text-white h-7 text-xs"
                                 >
                                   <Plus className="w-3 h-3 mr-1" />
                                   Add Products
@@ -977,7 +984,7 @@ export function DatabaseManagerModal({
                               {editForm.items && editForm.items.map((item, idx) => (
                                 <div
                                   key={idx}
-                                  className="flex items-center gap-3 bg-[#2d2d2d] p-2 rounded text-sm"
+                                  className="flex items-center gap-3 bg-[#141824] p-2 rounded text-sm"
                                 >
                                   <div className="flex-1 min-w-0">
                                     <div className="text-white font-medium truncate">{item.productName}</div>
@@ -988,10 +995,10 @@ export function DatabaseManagerModal({
                                       type="number"
                                       value={item.quantity}
                                       onChange={(e) => handleEditItemQuantity(idx, e.target.value)}
-                                      className="bg-[#1a1a1a] border-gray-600 text-white text-sm w-16 h-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                      className="bg-[#08090e] border-gray-600 text-white text-sm w-16 h-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                       min="1"
                                     />
-                                    <span className="text-[#2d8659] font-semibold text-sm min-w-[70px] text-right">
+                                    <span className="text-[#f97316] font-semibold text-sm min-w-[70px] text-right">
                                       ₱{item.total.toFixed(2)}
                                     </span>
                                     <Button
@@ -1007,10 +1014,10 @@ export function DatabaseManagerModal({
                               ))}
                             </div>
 
-                            <div className="flex items-center justify-between pt-3 border-t border-gray-700">
+                            <div className="flex items-center justify-between pt-3 border-t border-[#1e2433]">
                               <div className="text-sm">
                                 <span className="text-gray-400">Total: </span>
-                                <span className="text-[#2d8659] text-lg font-bold">₱{getEditTotalValue().toFixed(2)}</span>
+                                <span className="text-[#f97316] text-lg font-bold">₱{getEditTotalValue().toFixed(2)}</span>
                               </div>
                               <div className="flex gap-2">
                                 <Button
@@ -1025,7 +1032,7 @@ export function DatabaseManagerModal({
                                 <Button
                                   onClick={() => handleSaveEdit(request.id)}
                                   size="sm"
-                                  className="bg-[#2d8659] hover:bg-[#238b4d] text-white"
+                                  className="bg-[#f97316] hover:bg-[#ea6a09] text-white"
                                 >
                                   <Save className="w-3 h-3 mr-1" />
                                   Save Changes
@@ -1042,7 +1049,7 @@ export function DatabaseManagerModal({
                                 className="mt-1 flex-shrink-0"
                               >
                                 {selectedIds.has(request.id) ? (
-                                  <CheckSquare className="w-5 h-5 text-[#2d8659]" />
+                                  <CheckSquare className="w-5 h-5 text-[#f97316]" />
                                 ) : (
                                   <Square className="w-5 h-5 text-gray-600 hover:text-gray-400" />
                                 )}
@@ -1064,8 +1071,8 @@ export function DatabaseManagerModal({
                                     </span>
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    <FileText className="w-4 h-4 text-[#2d8659]" />
-                                    <span className="text-[#2d8659] text-sm font-semibold">
+                                    <FileText className="w-4 h-4 text-[#f97316]" />
+                                    <span className="text-[#f97316] text-sm font-semibold">
                                       DR# {request.drNumber || 'N/A'}
                                     </span>
                                   </div>
@@ -1082,7 +1089,7 @@ export function DatabaseManagerModal({
 
                                 {/* Delivery Information */}
                                 {(request.deliveryAddress || request.deliveryDate || request.notes) && (
-                                  <div className="bg-[#2d2d2d]/30 rounded p-3 space-y-2">
+                                  <div className="bg-[#141824]/30 rounded p-3 space-y-2">
                                     {request.deliveryAddress && (
                                       <div className="flex items-start gap-2">
                                         <span className="text-gray-400 text-xs font-medium min-w-[100px]">Delivery Address:</span>
@@ -1111,7 +1118,7 @@ export function DatabaseManagerModal({
                                 )}
 
                                 {/* Items Summary */}
-                                <div className="bg-[#2d2d2d]/50 rounded p-3 space-y-1.5">
+                                <div className="bg-[#141824]/50 rounded p-3 space-y-1.5">
                                   <div className="flex items-center gap-2 mb-2">
                                     <Package className="w-4 h-4 text-gray-400" />
                                     <span className="text-gray-400 text-xs font-medium">
@@ -1126,12 +1133,12 @@ export function DatabaseManagerModal({
                                           {item.size} × {item.quantity}
                                         </span>
                                       </div>
-                                      <span className="text-[#2d8659] font-semibold ml-2">₱{item.total.toFixed(2)}</span>
+                                      <span className="text-[#f97316] font-semibold ml-2">₱{item.total.toFixed(2)}</span>
                                     </div>
                                   ))}
-                                  <div className="flex justify-between items-center pt-2 border-t border-gray-700 mt-2">
+                                  <div className="flex justify-between items-center pt-2 border-t border-[#1e2433] mt-2">
                                     <span className="text-gray-400 text-sm">Total Value</span>
-                                    <span className="text-[#2d8659] text-lg font-bold">₱{request.totalValue.toFixed(2)}</span>
+                                    <span className="text-[#f97316] text-lg font-bold">₱{request.totalValue.toFixed(2)}</span>
                                   </div>
                                 </div>
                               </div>
@@ -1169,9 +1176,9 @@ export function DatabaseManagerModal({
             // Add New Request Tab
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               <div className="max-w-4xl mx-auto space-y-6">
-                <div className="bg-[#1a1a1a]/30 rounded-lg p-4 sm:p-6 border border-gray-700/50">
+                <div className="bg-[#08090e]/30 rounded-lg p-4 sm:p-6 border border-[#1e2433]/50">
                   <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-[#2d8659]" />
+                    <FileText className="w-5 h-5 text-[#f97316]" />
                     Request Information
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1183,7 +1190,7 @@ export function DatabaseManagerModal({
                         value={newRequestForm.submittedBy}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, submittedBy: e.target.value })}
                         placeholder="Enter name..."
-                        className="bg-[#2d2d2d] border-gray-600 text-white"
+                        className="bg-[#141824] border-gray-600 text-white"
                       />
                     </div>
                     <div>
@@ -1194,7 +1201,7 @@ export function DatabaseManagerModal({
                         value={newRequestForm.drNumber}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, drNumber: e.target.value })}
                         placeholder="Enter DR#..."
-                        className="bg-[#2d2d2d] border-gray-600 text-white"
+                        className="bg-[#141824] border-gray-600 text-white"
                       />
                     </div>
                     <div>
@@ -1203,7 +1210,7 @@ export function DatabaseManagerModal({
                         value={newRequestForm.clientName}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, clientName: e.target.value })}
                         placeholder="Optional..."
-                        className="bg-[#2d2d2d] border-gray-600 text-white"
+                        className="bg-[#141824] border-gray-600 text-white"
                       />
                     </div>
                     <div className="sm:col-span-2">
@@ -1212,7 +1219,7 @@ export function DatabaseManagerModal({
                         value={newRequestForm.deliveryAddress}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, deliveryAddress: e.target.value })}
                         placeholder="Enter delivery address..."
-                        className="bg-[#2d2d2d] border-gray-600 text-white"
+                        className="bg-[#141824] border-gray-600 text-white"
                       />
                     </div>
                     <div>
@@ -1221,7 +1228,7 @@ export function DatabaseManagerModal({
                         type="date"
                         value={newRequestForm.deliveryDate}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, deliveryDate: e.target.value })}
-                        className="bg-[#2d2d2d] border-gray-600 text-white"
+                        className="bg-[#141824] border-gray-600 text-white"
                       />
                     </div>
                     <div className="sm:col-span-3">
@@ -1230,16 +1237,16 @@ export function DatabaseManagerModal({
                         value={newRequestForm.notes}
                         onChange={(e) => setNewRequestForm({ ...newRequestForm, notes: e.target.value })}
                         placeholder="Add special instructions, preferences, or comments..."
-                        className="bg-[#2d2d2d] border-gray-600 text-white min-h-[100px] resize-y"
+                        className="bg-[#141824] border-gray-600 text-white min-h-[100px] resize-y"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#1a1a1a]/30 rounded-lg p-4 sm:p-6 border border-gray-700/50">
+                <div className="bg-[#08090e]/30 rounded-lg p-4 sm:p-6 border border-[#1e2433]/50">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                      <Package className="w-5 h-5 text-[#2d8659]" />
+                      <Package className="w-5 h-5 text-[#f97316]" />
                       Products ({newRequestForm.items.length})
                     </h3>
                     <Button
@@ -1247,7 +1254,7 @@ export function DatabaseManagerModal({
                         setProductSelectorMode('add');
                         setShowProductSelector(true);
                       }}
-                      className="bg-[#2d8659] hover:bg-[#238b4d] text-white"
+                      className="bg-[#f97316] hover:bg-[#ea6a09] text-white"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add Products
@@ -1264,7 +1271,7 @@ export function DatabaseManagerModal({
                       {newRequestForm.items.map((item, idx) => (
                         <div
                           key={idx}
-                          className="flex items-center gap-3 bg-[#2d2d2d] p-3 rounded"
+                          className="flex items-center gap-3 bg-[#141824] p-3 rounded"
                         >
                           <div className="flex-1 min-w-0">
                             <div className="text-white font-medium">{item.productName}</div>
@@ -1274,7 +1281,7 @@ export function DatabaseManagerModal({
                           </div>
                           <div className="text-right">
                             <div className="text-gray-400 text-xs">₱{item.unitPrice.toFixed(2)} each</div>
-                            <div className="text-[#2d8659] font-semibold">₱{item.total.toFixed(2)}</div>
+                            <div className="text-[#f97316] font-semibold">₱{item.total.toFixed(2)}</div>
                           </div>
                           <Button
                             onClick={() => handleRemoveNewRequestItem(idx)}
@@ -1286,9 +1293,9 @@ export function DatabaseManagerModal({
                           </Button>
                         </div>
                       ))}
-                      <div className="flex justify-between items-center pt-3 border-t border-gray-700">
+                      <div className="flex justify-between items-center pt-3 border-t border-[#1e2433]">
                         <span className="text-gray-300 font-medium">Total Value</span>
-                        <span className="text-[#2d8659] text-2xl font-bold">
+                        <span className="text-[#f97316] text-2xl font-bold">
                           ₱{getNewRequestTotalValue().toFixed(2)}
                         </span>
                       </div>
@@ -1319,7 +1326,7 @@ export function DatabaseManagerModal({
                   <Button
                     onClick={handleAddRequest}
                     disabled={!newRequestForm.submittedBy || !newRequestForm.drNumber || newRequestForm.items.length === 0}
-                    className="bg-[#2d8659] hover:bg-[#238b4d] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-[#f97316] hover:bg-[#ea6a09] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Save className="w-4 h-4 mr-2" />
                     Save Request

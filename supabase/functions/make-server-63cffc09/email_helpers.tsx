@@ -4,7 +4,7 @@ export async function sendRequestEditNotificationEmail(oldRequest: any, newReque
     let resendApiKey = Deno.env.get('RESEND_API_KEY');
     
     // Always log request edit to console
-    console.log(`\n========== SAMPLE REQUEST EDITED ==========`);
+    console.log(`\n========== PURCHASE ORDER EDITED ==========`);
     console.log(`Request ID: ${newRequest.id}`);
     console.log(`Client: ${newRequest.clientName}`);
     console.log(`Changes Made: ${changes.join(', ')}`);
@@ -17,13 +17,13 @@ export async function sendRequestEditNotificationEmail(oldRequest: any, newReque
 
     resendApiKey = resendApiKey.trim();
     
-    const notificationEmail = 'wonderzymemarketing@infarmco.com';
+    const notificationEmail = 'admin@nexabox.tech';
     
     // Get domain from environment or use test domain
     const emailDomain = Deno.env.get('EMAIL_DOMAIN') || 'onboarding@resend.dev';
     const fromAddress = emailDomain.includes('@') 
-      ? `Wonderzyme Notifications <${emailDomain}>`
-      : `Wonderzyme Notifications <noreply@${emailDomain}>`;
+      ? `NexaBox Notifications <${emailDomain}>`
+      : `NexaBox Notifications <noreply@${emailDomain}>`;
 
     // Format timestamp
     const editTime = new Date();
@@ -61,7 +61,7 @@ export async function sendRequestEditNotificationEmail(oldRequest: any, newReque
     const emailBody = {
       from: fromAddress,
       to: notificationEmail,
-      subject: `✏️ Sample Request Updated - ${newRequest.clientName || newRequest.submittedBy}`,
+      subject: `✏️ Purchase Order Updated - ${newRequest.clientName || newRequest.submittedBy}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -100,12 +100,12 @@ export async function sendRequestEditNotificationEmail(oldRequest: any, newReque
           <body>
             <div class="container">
               <div class="header">
-                <p class="logo-text">🧬 Wonderzyme</p>
+                <p class="logo-text">⚡ NexaBox</p>
                 <span class="badge">REQUEST UPDATED</span>
               </div>
               
-              <h1>✏️ Sample Request Updated</h1>
-              <p>A sample request has been modified in the Wonderzyme Inventory System.</p>
+              <h1>✏️ Purchase Order Updated</h1>
+              <p>A purchase order has been modified in the NexaBox Electronics Distribution System.</p>
               
               <div class="info-box">
                 <div class="info-row">
@@ -179,8 +179,8 @@ export async function sendRequestEditNotificationEmail(oldRequest: any, newReque
               </p>
               
               <div class="footer">
-                <p>© 2026 Wonderzyme. All rights reserved.</p>
-                <p>Inventory & Sample Management System</p>
+                <p>© 2026 NexaBox. All rights reserved.</p>
+                <p>Electronics Distribution System</p>
                 <p style="font-size: 11px; color: #666; margin-top: 8px;">Developed by Dale Catibog</p>
               </div>
             </div>
@@ -223,7 +223,7 @@ export async function sendRequestDeleteNotificationEmail(deletedRequest: any): P
     let resendApiKey = Deno.env.get('RESEND_API_KEY');
     
     // Always log request deletion to console
-    console.log(`\n========== SAMPLE REQUEST DELETED ==========`);
+    console.log(`\n========== PURCHASE ORDER DELETED ==========`);
     console.log(`Request ID: ${deletedRequest.id}`);
     console.log(`Client: ${deletedRequest.clientName}`);
     console.log(`Total Value: ₱${deletedRequest.totalValue.toFixed(2)}`);
@@ -236,13 +236,13 @@ export async function sendRequestDeleteNotificationEmail(deletedRequest: any): P
 
     resendApiKey = resendApiKey.trim();
     
-    const notificationEmail = 'wonderzymemarketing@infarmco.com';
+    const notificationEmail = 'admin@nexabox.tech';
     
     // Get domain from environment or use test domain
     const emailDomain = Deno.env.get('EMAIL_DOMAIN') || 'onboarding@resend.dev';
     const fromAddress = emailDomain.includes('@') 
-      ? `Wonderzyme Notifications <${emailDomain}>`
-      : `Wonderzyme Notifications <noreply@${emailDomain}>`;
+      ? `NexaBox Notifications <${emailDomain}>`
+      : `NexaBox Notifications <noreply@${emailDomain}>`;
 
     // Format timestamp
     const deleteTime = new Date();
@@ -282,7 +282,7 @@ export async function sendRequestDeleteNotificationEmail(deletedRequest: any): P
     const emailBody = {
       from: fromAddress,
       to: notificationEmail,
-      subject: `🗑️ Sample Request Deleted - ${deletedRequest.clientName || deletedRequest.submittedBy}`,
+      subject: `🗑️ Purchase Order Deleted - ${deletedRequest.clientName || deletedRequest.submittedBy}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -320,12 +320,12 @@ export async function sendRequestDeleteNotificationEmail(deletedRequest: any): P
           <body>
             <div class="container">
               <div class="header">
-                <p class="logo-text">🧬 Wonderzyme</p>
+                <p class="logo-text">⚡ NexaBox</p>
                 <span class="badge">REQUEST DELETED</span>
               </div>
               
-              <h1>🗑️ Sample Request Deleted</h1>
-              <p>A sample request has been permanently removed from the Wonderzyme Inventory System.</p>
+              <h1>🗑️ Purchase Order Deleted</h1>
+              <p>A purchase order has been permanently removed from the NexaBox Electronics Distribution System.</p>
               
               <div class="warning-box">
                 <p>⚠️ This action is permanent and cannot be undone.</p>
@@ -400,8 +400,8 @@ export async function sendRequestDeleteNotificationEmail(deletedRequest: any): P
               </p>
               
               <div class="footer">
-                <p>© 2026 Wonderzyme. All rights reserved.</p>
-                <p>Inventory & Sample Management System</p>
+                <p>© 2026 NexaBox. All rights reserved.</p>
+                <p>Electronics Distribution System</p>
                 <p style="font-size: 11px; color: #666; margin-top: 8px;">Developed by Dale Catibog</p>
               </div>
             </div>
